@@ -18,7 +18,7 @@ import model.Personal;
 import model.PersonalDTO;
 import model.Roles;
 import model.RolesDTO;
-//Hej detta är en ändring
+//KALLES ÄNDRING
 /**
  * A controller. All calls to the model that are executed because of an action
  * taken by the cashier pass through here.
