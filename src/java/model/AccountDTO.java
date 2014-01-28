@@ -2,7 +2,7 @@ package model;
 
 /**
  * Interface containing the predefinitions of the account methods.
- *
+ * -added roleid
  * @author Micke, Max.
  */
 public interface AccountDTO {
@@ -58,4 +58,9 @@ public interface AccountDTO {
 
     
     void setPersonalId(int personalId);
+    
+    int getRoleId();
+    
+    
+    void setRoleId(int roleId);
 }

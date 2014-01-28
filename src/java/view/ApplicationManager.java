@@ -17,6 +17,8 @@ import model.PersonalDTO;
 
 /**
  * Changelog:
+ * -added roleid in register (Account)
+ * 
  * -submitApplication() removed.
  * -register() now registers inputs from the user.
  * -register() now registers personal,account,availablity,competence and comptenceprofile.
@@ -647,8 +649,8 @@ public class ApplicationManager implements Serializable {
                 int competenceid = random.nextInt(100);
                 int competenceProfileId = random.nextInt(100);
                 
-                compFacade.register(personid, getUsername(), getPass());
-                compFacade.registerPersonal(personid, getName(), getSurname(), getSsn(), getEmail());
+                compFacade.register(personid, getUsername(), getPass(),Integer.parseInt(getRole()));
+                compFacade.registerPersonal(personid, getName(), getSurname(), getSsn(), getEmail(),Integer.parseInt(getRole()));
                 compFacade.registerAvailability(availableid, personid, getAvailabilityFrom(), getAvailabilityTo());
                 compFacade.registerCompetence(competenceid, getCompetence());
                 compFacade.registerCompetenceProfile(competenceProfileId, personid, competenceid, Double.parseDouble(getExperience()));

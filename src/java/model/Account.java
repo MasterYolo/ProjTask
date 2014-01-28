@@ -7,6 +7,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 /**
+ * 
+ * Changelog:
+ * -added roleid
  * Class used to handle the account, log in details from and to the DB. Class is
  * a entity class which means it can be stored as a whole object in the javaDB.
  *
@@ -22,9 +25,10 @@ public class Account implements Serializable, AccountDTO {
     private String username;
 
     private int personalId;
-
+    private int roleId;
     private String password;
     private boolean banned;
+   
 
     /**
      * Consturctor needed when the class is Serializable.
@@ -38,13 +42,15 @@ public class Account implements Serializable, AccountDTO {
      * @param username A specific username (input from the JSF page).
      * @param password A specific password (input from the JSF page).
      * @param banned the bannedstatus.
+     * @param role_id
      */
-    public Account(String username, String password, boolean banned, int personalId) {
+    public Account(String username, String password, boolean banned, int personalId, int roleId) {
 
         this.banned = banned;
         this.username = username;
         this.password = password;
         this.personalId = personalId;
+        this.roleId = roleId;
     }
 
     /**
@@ -108,5 +114,14 @@ public class Account implements Serializable, AccountDTO {
     public void setPersonalId(int personalId) {
         this.personalId = personalId;
     }
+
+    public int getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(int roleId) {
+        this.roleId = roleId;
+    }
+    
 
 }

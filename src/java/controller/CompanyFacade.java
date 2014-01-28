@@ -25,6 +25,7 @@ import model.RolesDTO;
 
 /**
  * Changelog:
+ * -added roleid to method register()
  * -added registerCompetence()
  * -added registerCompetenceProfile()
  * 
@@ -60,8 +61,8 @@ public class CompanyFacade {
      * Manager.java.
      * @return AccountDTO object, which is the new account.
      */
-    public AccountDTO register(int id,String username, String password) {
-        Account acc = new Account(username, password, false,id);
+    public AccountDTO register(int id,String username, String password, int roleId) {
+        Account acc = new Account(username, password, false, id, roleId);
         em.persist(acc);
         return acc;
     }
@@ -80,8 +81,8 @@ public class CompanyFacade {
      * @param email
      * @return 
      */
-    public PersonalDTO registerPersonal(int id, String name, String surname, int ssn, String email) {
-        Personal pers = new Personal(id,name,surname,ssn,email);
+    public PersonalDTO registerPersonal(int id, String name, String surname, int ssn, String email,int role_id) {
+        Personal pers = new Personal(id,name,surname,ssn,email,role_id);
         em.persist(pers);
         return pers;
     }
