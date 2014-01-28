@@ -16,9 +16,17 @@ import model.AccountDTO;
 import model.PersonalDTO;
 
 /**
+ * Changelog:
+ * -submitApplication() removed.
+ * -register() now registers inputs from the user.
+ * -register() now registers personal,account,availablity,competence and comptenceprofile.
+ * 
  * Class to handle the calls from and to the web interface through JSF. It
  * passes method-calls to the controller to handle store and get objects in the
  * database.
+ * 
+ * 
+ * 
  *
  * @author Mikael and Max
  */
@@ -636,9 +644,14 @@ public class ApplicationManager implements Serializable {
 
                 int personid = random.nextInt(100);
                 int availableid = random.nextInt(100);
+                int competenceid = random.nextInt(100);
+                int competenceProfileId = random.nextInt(100);
+                
                 compFacade.register(personid, getUsername(), getPass());
-                compFacade.registerPersonal(personid, name, surname, ssn, email);
-                compFacade.registerAvailability(availableid, personid, "", "");
+                compFacade.registerPersonal(personid, getName(), getSurname(), getSsn(), getEmail());
+                compFacade.registerAvailability(availableid, personid, getAvailabilityFrom(), getAvailabilityTo());
+                compFacade.registerCompetence(competenceid, getCompetence());
+                compFacade.registerCompetenceProfile(competenceProfileId, personid, competenceid, Double.parseDouble(getExperience()));
                 setRegistrationSuccessfulStatus(true);
             } else {
                 setUserAlreadyExistsStatus(true);
@@ -648,23 +661,5 @@ public class ApplicationManager implements Serializable {
             handleException(e);
         }
         return jsf22Bugfix();
-    }
-
-    /**
-     *
-     * @return
-     */
-    public String submitApplication() {
-        try {
-            startConversation();
-            Random random;
-            random = new Random();
-            
-            account.getPersonalId();
-        } catch (Exception e) {
-            handleException(e);
-        }
-        return jsf22Bugfix();
-
     }
 }

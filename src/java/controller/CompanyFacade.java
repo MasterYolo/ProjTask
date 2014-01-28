@@ -14,12 +14,20 @@ import model.Account;
 import model.AccountDTO;
 import model.Availability;
 import model.AvailabilityDTO;
+import model.Competence;
+import model.CompetenceDTO;
+import model.CompetenceProfile;
+import model.CompetenceProfileDTO;
 import model.Personal;
 import model.PersonalDTO;
 import model.Roles;
 import model.RolesDTO;
-//KALLES ÄNDRING
+
 /**
+ * Changelog:
+ * -added registerCompetence()
+ * -added registerCompetenceProfile()
+ * 
  * A controller. All calls to the model that are executed because of an action
  * taken by the cashier pass through here.
  */
@@ -76,6 +84,26 @@ public class CompanyFacade {
         Personal pers = new Personal(id,name,surname,ssn,email);
         em.persist(pers);
         return pers;
+    }
+    
+    /**
+     * 
+     * @param id
+     * @param name
+     * @return 
+     */
+    public CompetenceDTO registerCompetence(int id,String name) {
+        Competence comp = new Competence(id,name);
+        em.persist(comp);
+        return comp;
+    }
+    
+    public CompetenceProfileDTO registerCompetenceProfile(int competence_profile_id,
+            int person_id, int competence_id, Double experience) {
+        CompetenceProfile compProfile = 
+                new CompetenceProfile(competence_profile_id,person_id,competence_id,experience);
+        em.persist(compProfile);
+        return compProfile;
     }
     
     /**
