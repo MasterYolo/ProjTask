@@ -59,8 +59,8 @@ public interface AccountDTO {
     
     void setPersonalId(int personalId);
     
-    int getRoleId();
+    String getRoleId();
     
     
-    void setRoleId(int roleId);
+    void setRoleId(String roleId);
 }

@@ -24,11 +24,9 @@ import model.Roles;
 import model.RolesDTO;
 
 /**
- * Changelog:
- * -added roleid to method register()
- * -added registerCompetence()
+ * Changelog: -added roleid to method register() -added registerCompetence()
  * -added registerCompetenceProfile()
- * 
+ *
  * A controller. All calls to the model that are executed because of an action
  * taken by the cashier pass through here.
  */
@@ -45,11 +43,14 @@ public class CompanyFacade {
      */
     //private List<ProductDTO> productList = new ArrayList<ProductDTO>();
     private List<AccountDTO> accountList = new ArrayList<AccountDTO>();
-    
+
     private PersonalDTO personalDTO;
 
-    
-    
+    private List<PersonalDTO> personalList = new ArrayList<PersonalDTO>();
+    private List<AvailabilityDTO> availabilityList = new ArrayList<AvailabilityDTO>();
+    private List<CompetenceDTO> competenceList = new ArrayList<CompetenceDTO>();
+    private List<CompetenceProfileDTO> competenceProfileList = new ArrayList<CompetenceProfileDTO>();
+
     /**
      * Method to register a new account in the database.
      *
@@ -61,64 +62,65 @@ public class CompanyFacade {
      * Manager.java.
      * @return AccountDTO object, which is the new account.
      */
-    public AccountDTO register(int id,String username, String password, int roleId) {
+    public AccountDTO register(int id, String username, String password, String roleId) {
         Account acc = new Account(username, password, false, id, roleId);
         em.persist(acc);
         return acc;
     }
-    
+
     public AvailabilityDTO registerAvailability(int id, int personId, String availabilityFrom, String availabilityTo) {
         Availability available = new Availability(id, personId, availabilityFrom, availabilityTo);
         em.persist(available);
         return available;
     }
+
     /**
-     * 
+     *
      * @param id
      * @param name
      * @param surname
      * @param ssn
      * @param email
-     * @return 
+     * @return
      */
-    public PersonalDTO registerPersonal(int id, String name, String surname, int ssn, String email,int role_id) {
-        Personal pers = new Personal(id,name,surname,ssn,email,role_id);
+    public PersonalDTO registerPersonal(int id, String name, String surname, int ssn, String email, String role_id) {
+        Personal pers = new Personal(id, name, surname, ssn, email, role_id);
         em.persist(pers);
         return pers;
     }
-    
+
     /**
-     * 
+     *
      * @param id
      * @param name
-     * @return 
+     * @return
      */
-    public CompetenceDTO registerCompetence(int id,String name) {
-        Competence comp = new Competence(id,name);
+    public CompetenceDTO registerCompetence(int id, String name) {
+        Competence comp = new Competence(id, name);
         em.persist(comp);
         return comp;
     }
-    
+
     public CompetenceProfileDTO registerCompetenceProfile(int competence_profile_id,
             int person_id, int competence_id, Double experience) {
-        CompetenceProfile compProfile = 
-                new CompetenceProfile(competence_profile_id,person_id,competence_id,experience);
+        CompetenceProfile compProfile
+                = new CompetenceProfile(competence_profile_id, person_id, competence_id, experience);
         em.persist(compProfile);
         return compProfile;
     }
-    
+
     /**
-     * 
+     *
      * @param id
      * @param name
-     * @return 
+     * @return
      */
     public RolesDTO registerRole(int id, String name) {
-        Roles roles = new Roles(id,name);
+        Roles roles = new Roles(id, name);
         em.persist(roles);
         return roles;
     }
-    
+
     /**
      * Method to check if a user (or admin) is registered in the database.
      *
@@ -130,6 +132,7 @@ public class CompanyFacade {
         Account account = em.find(Account.class, username);
         return account;
     }
+
     /**
      * Method to retrieve account from database.
      *
@@ -147,7 +150,6 @@ public class CompanyFacade {
         }
         return account;
     }
-
     /**
      * Method to retrieve a list of available accounts from the database.
      *
@@ -157,6 +159,25 @@ public class CompanyFacade {
         Query query = em.createQuery("SELECT a FROM Account a");
         accountList = query.getResultList();
         return accountList;
+    }
+
+    public List<PersonalDTO> getJobSeekerList() {
+        Query query = em.createQuery("SELECT p FROM Personal p WHERE p.role_id = '3'");
+        personalList = query.getResultList();
+        return personalList;
+    }
+
+    public List<CompetenceDTO> getCompetenceList(int id) {
+        Query query = em.createQuery("SELECT c FROM Competence c WHERE c.id = :id");
+        query.setParameter("id", id);
+        competenceList = query.getResultList();
+        return competenceList;
+    }
+
+    public List<PersonalDTO> getPersonalList() {
+        Query query = em.createQuery("SELECT p from Personal p");
+        personalList = query.getResultList();
+        return personalList;
     }
 
     /**

@@ -13,22 +13,28 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import model.AccountDTO;
+import model.AvailabilityDTO;
+import model.CompetenceDTO;
+import model.CompetenceProfileDTO;
 import model.PersonalDTO;
 
 /**
- * Changelog:
- * -added roleid in register (Account)
- * 
- * -submitApplication() removed.
- * -register() now registers inputs from the user.
- * -register() now registers personal,account,availablity,competence and comptenceprofile.
+ * Changelog: -added roleid in register (Account)
+ *
+ * -submitApplication() removed. -register() now registers inputs from the user.
+ * -register() now registers personal,account,availablity,competence and
+ * comptenceprofile.
+ *
+ * -added personallist object with get/set methods.
+ * -getting a role id now works as intended
+ * -Role ID is now a String and not an Integer
  * 
  * Class to handle the calls from and to the web interface through JSF. It
  * passes method-calls to the controller to handle store and get objects in the
  * database.
- * 
- * 
- * 
+ *
+ *
+ *
  *
  * @author Mikael and Max
  */
@@ -43,10 +49,17 @@ public class ApplicationManager implements Serializable {
     private AccountDTO loginuser;
     private AccountDTO account;
     
+    private AvailabilityDTO availability;
+    private CompetenceProfileDTO comptenceProfile;
     private PersonalDTO personinfo;
 
     /* Array lists used in the view */
+    private List<PersonalDTO> personalList = new ArrayList<PersonalDTO>();
     private List<AccountDTO> accountList = new ArrayList<AccountDTO>();
+    private List<AvailabilityDTO> availabilityList = new ArrayList<AvailabilityDTO>();
+    private List<CompetenceDTO> competenceList = new ArrayList<CompetenceDTO>();
+    private List<CompetenceProfileDTO> competenceProfileList = new ArrayList<CompetenceProfileDTO>();
+    private List<PersonalDTO> jobSeekerList = new ArrayList<PersonalDTO>();
     //private List<ProductDTO> productList = new ArrayList<ProductDTO>();
     // private List<ProductDTO> shoppingList = new ArrayList<ProductDTO>();
 
@@ -68,7 +81,7 @@ public class ApplicationManager implements Serializable {
 
     /*Person variables */
     //private String personId;
-    private int id;
+    //  private int id;
     private String name;
     private String surname;
     private int ssn;
@@ -142,10 +155,32 @@ public class ApplicationManager implements Serializable {
      *
      * @return List of accounts from the database
      */
+    public void updateApplications() {
+        jobSeekerList = compFacade.getJobSeekerList();
+       // competenceList = compFacade.getCompetenceList(comptenceProfile.getCompetence_id());
+      //  availabilityList = compFacade.getAvailabilityList();
+    }
+
     public List<AccountDTO> getAccountList() {
         return accountList;
     }
 
+    public List<PersonalDTO> getPersonalList() {
+        return personalList;
+    }
+
+    public void setPersonalList(List<PersonalDTO> personalList) {
+        personalList = compFacade.getPersonalList();
+    }
+
+    public List<PersonalDTO> getJobSeekerList() {
+        return jobSeekerList;
+    }
+
+    public void setJobSeekerList(List<PersonalDTO> jobSeekerList) {
+        jobSeekerList = compFacade.getJobSeekerList();
+    }
+    
     /**
      * Method to recognize the variable AccountList in the JSF pages.
      *
@@ -648,9 +683,9 @@ public class ApplicationManager implements Serializable {
                 int availableid = random.nextInt(100);
                 int competenceid = random.nextInt(100);
                 int competenceProfileId = random.nextInt(100);
-                
-                compFacade.register(personid, getUsername(), getPass(),Integer.parseInt(getRole()));
-                compFacade.registerPersonal(personid, getName(), getSurname(), getSsn(), getEmail(),Integer.parseInt(getRole()));
+
+                compFacade.register(personid, getUsername(), getPass(), getRole());
+                compFacade.registerPersonal(personid, getName(), getSurname(), getSsn(), getEmail(), getRole());
                 compFacade.registerAvailability(availableid, personid, getAvailabilityFrom(), getAvailabilityTo());
                 compFacade.registerCompetence(competenceid, getCompetence());
                 compFacade.registerCompetenceProfile(competenceProfileId, personid, competenceid, Double.parseDouble(getExperience()));

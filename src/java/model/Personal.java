@@ -26,12 +26,12 @@ public class Personal implements PersonalDTO, Serializable {
     private String surname;
     private int ssn;
     private String email;
-    private int role_id;
+    private String role_id;
 
     public Personal() {
     }
 
-    public Personal(int id,String name, String surname, int ssn, String email,int role_id) {
+    public Personal(int id,String name, String surname, int ssn, String email,String role_id) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -79,11 +79,11 @@ public class Personal implements PersonalDTO, Serializable {
         this.email = email;
     }
 
-    public int getRole_id() {
+    public String getRole_id() {
         return role_id;
     }
 
-    public void setRole_id(int role_id) {
+    public void setRole_id(String role_id) {
         this.role_id = role_id;
     }
     

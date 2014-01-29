@@ -25,7 +25,7 @@ public class Account implements Serializable, AccountDTO {
     private String username;
 
     private int personalId;
-    private int roleId;
+    private String roleId;
     private String password;
     private boolean banned;
    
@@ -44,7 +44,7 @@ public class Account implements Serializable, AccountDTO {
      * @param banned the bannedstatus.
      * @param role_id
      */
-    public Account(String username, String password, boolean banned, int personalId, int roleId) {
+    public Account(String username, String password, boolean banned, int personalId, String roleId) {
 
         this.banned = banned;
         this.username = username;
@@ -115,11 +115,11 @@ public class Account implements Serializable, AccountDTO {
         this.personalId = personalId;
     }
 
-    public int getRoleId() {
+    public String getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(int roleId) {
+    public void setRoleId(String roleId) {
         this.roleId = roleId;
     }
     
