@@ -83,8 +83,8 @@ public class CompanyFacade {
      * @param email
      * @return
      */
-    public PersonalDTO registerPersonal(int id, String name, String surname, int ssn, String email,String roleId, Availability av) {
-        Personal pers = new Personal(id, name, surname, ssn, email, roleId, av);
+    public PersonalDTO registerPersonal(int id, String name, String surname, int ssn, String email,String roleId,Roles role, Availability av) {
+        Personal pers = new Personal(id, name, surname, ssn, email,roleId, role, av);
         em.persist(pers);
         return pers;
     }

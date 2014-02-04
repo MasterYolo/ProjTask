@@ -49,16 +49,29 @@ public class Personal implements PersonalDTO, Serializable {
         this.av = av;
     }
     
+    @OneToMany(cascade = CascadeType.ALL)
+    List<Roles> role = new ArrayList();
+
+    public List<Roles> getRole() {
+        return role;
+    }
+
+    public void setRole(List<Roles> role) {
+        this.role = role;
+    }
+    
+    
     public Personal() {
     }
 
-    public Personal(int id,String name, String surname, int ssn, String email,String roleId,Availability av) {
+    public Personal(int id,String name, String surname, int ssn, String email,String roleId,Roles role,Availability av) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.ssn = ssn;
         this.email = email;
         this.roleId = roleId;
+        this.role.add(role);
         this.av.add(av);
     }
 

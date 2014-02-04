@@ -14,6 +14,14 @@ public interface PersonalDTO {
 
     String getEmail();
     
+    String getRoleId();
+    
+    void setRoleId(String roleId);
+    
+    List<Roles> getRole();
+    
+    void setRole(List<Roles> role);
+    
     List<Availability> getAv();
     
     void setAv(List<Availability> av);
