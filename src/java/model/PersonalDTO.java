@@ -18,6 +18,10 @@ public interface PersonalDTO {
     
     void setRoleId(String roleId);
     
+    List<Competence> getCompetence();
+    
+    void setCompetence(List<Competence> competence);
+    
     List<Roles> getRole();
     
     void setRole(List<Roles> role);

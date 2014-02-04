@@ -40,7 +40,7 @@ public class Personal implements PersonalDTO, Serializable {
     
     @OneToMany(cascade = CascadeType.ALL)
     List<Availability> av = new ArrayList();
-
+    
     public List<Availability> getAv() {
         return av;
     }
@@ -59,12 +59,21 @@ public class Personal implements PersonalDTO, Serializable {
     public void setRole(List<Roles> role) {
         this.role = role;
     }
-    
+    @OneToMany (cascade = CascadeType.ALL)
+    List<Competence> competence = new ArrayList();
+
+    public List<Competence> getCompetence() {
+        return competence;
+    }
+
+    public void setCompetence(List<Competence> competence) {
+        this.competence = competence;
+    }
     
     public Personal() {
     }
 
-    public Personal(int id,String name, String surname, int ssn, String email,String roleId,Roles role,Availability av) {
+    public Personal(int id,String name, String surname, int ssn, String email,String roleId,Roles role,Availability av, Competence competence) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -73,6 +82,7 @@ public class Personal implements PersonalDTO, Serializable {
         this.roleId = roleId;
         this.role.add(role);
         this.av.add(av);
+        this.competence.add(competence);
     }
 
     public Integer getId() {

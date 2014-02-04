@@ -1,5 +1,5 @@
 package view;
-
+//hej
 import controller.CompanyFacade;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -17,6 +17,7 @@ import javax.inject.Named;
 import model.AccountDTO;
 import model.Availability;
 import model.AvailabilityDTO;
+import model.Competence;
 import model.CompetenceDTO;
 import model.CompetenceProfileDTO;
 import model.PersonalDTO;
@@ -700,27 +701,31 @@ public class ApplicationManager implements Serializable {
                 Roles role1 = new Roles(1,"Admin");
                 Roles role2 = new Roles(2,"Recruit");
                 Roles role3 = new Roles(3,"Job seeker");
+                Competence competence;
                 
                 if (getRole().equals("1")) {
                     Availability av = new Availability(availableid, personid, getAvailabilityFrom(), getAvailabilityTo());
+                    competence = new Competence(competenceid, getCompetence());
                     compFacade.register(personid, getUsername(), getPass(), getRole());
-                    compFacade.registerPersonal(personid, getName(), getSurname(), getSsn(), getEmail(),getRole(),role1, av);
+                    compFacade.registerPersonal(personid, getName(), getSurname(), getSsn(), getEmail(),getRole(),role1, av, competence);
                     //compFacade.registerAvailability(availableid, personid, getAvailabilityFrom(), getAvailabilityTo());
                     //compFacade.registerCompetence(competenceid, getCompetence());
                     //compFacade.registerCompetenceProfile(competenceProfileId, personid, competenceid, Double.parseDouble(getExperience()));
 
                 } else if (getRole().equals("2")) {
                     Availability av = new Availability(availableid, personid, getAvailabilityFrom(), getAvailabilityTo());
+                    competence = new Competence(competenceid, getCompetence());
                     compFacade.register(personid, getUsername(), getPass(), getRole());
-                    compFacade.registerPersonal(personid, getName(), getSurname(), getSsn(), getEmail(),getRole(),role2, av);
+                    compFacade.registerPersonal(personid, getName(), getSurname(), getSsn(), getEmail(),getRole(),role2, av, competence);
                     //compFacade.registerAvailability(availableid, personid, getAvailabilityFrom(), getAvailabilityTo());
                     //compFacade.registerCompetence(competenceid, getCompetence());
                     //compFacade.registerCompetenceProfile(competenceProfileId, personid, competenceid, Double.parseDouble(getExperience()));
 
                 } else if (getRole().equals("3")) {
                     Availability av = new Availability(availableid, personid, getAvailabilityFrom(), getAvailabilityTo());
+                    competence = new Competence(competenceid, getCompetence());
                     compFacade.register(personid, getUsername(), getPass(), getRole());
-                    compFacade.registerPersonal(personid, getName(), getSurname(), getSsn(), getEmail(),getRole(),role3, av);
+                    compFacade.registerPersonal(personid, getName(), getSurname(), getSsn(), getEmail(),getRole(),role3, av, competence);
                     //compFacade.registerAvailability(availableid, personid, getAvailabilityFrom(), getAvailabilityTo());
                     //compFacade.registerCompetence(competenceid, getCompetence());
                     //compFacade.registerCompetenceProfile(competenceProfileId, personid, competenceid, Double.parseDouble(getExperience()));

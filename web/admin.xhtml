@@ -23,15 +23,20 @@
                 <h:outputLabel for="email" value="E-Mail: "/>
                 <h:outputText value="${user.email}"/>&nbsp;
                 <br/>
-                
+
                 <c:forEach items="${user.av}" var="availability" >
-                <h:outputLabel for="availabilityFrom" value="From: "/>
-                <h:outputText value="${availability.availabilityFrom}"/>&nbsp;
-                <br/>
-                <h:outputLabel for="availabilityTo" value="To: "/>
-                <h:outputText value="${availability.availabilityTo}"/>&nbsp;
-                <br/>
-            </c:forEach>
+                    <h:outputLabel for="availabilityFrom" value="From: "/>
+                    <h:outputText value="${availability.availabilityFrom}"/>&nbsp;
+                    <br/>
+                    <h:outputLabel for="availabilityTo" value="To: "/>
+                    <h:outputText value="${availability.availabilityTo}"/>&nbsp;
+                    <br/>
+                </c:forEach>
+                <c:forEach items="${user.competence}" var="competence" >
+                    <h:outputLabel for="name" value="Competence: "/>
+                    <h:outputText value="${competence.name}"/>&nbsp;                  
+                    <br/>
+                </c:forEach>
             </c:forEach>
             <hr/>
             <h:commandButton value="Refresh" action="#{manager.updateApplications()}"/>
