@@ -83,8 +83,8 @@ public class CompanyFacade {
      * @param email
      * @return
      */
-    public PersonalDTO registerPersonal(int id, String name, String surname, int ssn, String email, String role_id) {
-        Personal pers = new Personal(id, name, surname, ssn, email, role_id);
+    public PersonalDTO registerPersonal(int id, String name, String surname, int ssn, String email,String roleId, Availability av) {
+        Personal pers = new Personal(id, name, surname, ssn, email, roleId, av);
         em.persist(pers);
         return pers;
     }
@@ -162,7 +162,7 @@ public class CompanyFacade {
     }
 
     public List<PersonalDTO> getJobSeekerList() {
-        Query query = em.createQuery("SELECT p FROM Personal p WHERE p.role_id = '3'");
+        Query query = em.createQuery("SELECT p FROM Personal p WHERE p.roleId = '3'");
         personalList = query.getResultList();
         return personalList;
     }

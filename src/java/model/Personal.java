@@ -1,12 +1,15 @@
 package model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 /**
@@ -16,7 +19,6 @@ import javax.persistence.OneToOne;
  */
 @Entity
 public class Personal implements PersonalDTO, Serializable {
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,17 +28,38 @@ public class Personal implements PersonalDTO, Serializable {
     private String surname;
     private int ssn;
     private String email;
-    private String role_id;
+    private String roleId;
 
+    public String getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(String roleId) {
+        this.roleId = roleId;
+    }
+    
+    @OneToMany(cascade = CascadeType.ALL)
+    List<Availability> av = new ArrayList();
+
+    public List<Availability> getAv() {
+        return av;
+    }
+
+    public void setAv(List<Availability> av) {
+        this.av = av;
+    }
+    
     public Personal() {
     }
 
-    public Personal(int id,String name, String surname, int ssn, String email,String role_id) {
+    public Personal(int id,String name, String surname, int ssn, String email,String roleId,Availability av) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.ssn = ssn;
         this.email = email;
+        this.roleId = roleId;
+        this.av.add(av);
     }
 
     public Integer getId() {
@@ -78,13 +101,4 @@ public class Personal implements PersonalDTO, Serializable {
     public void setEmail(String email) {
         this.email = email;
     }
-
-    public String getRole_id() {
-        return role_id;
-    }
-
-    public void setRole_id(String role_id) {
-        this.role_id = role_id;
-    }
-    
 }

@@ -1,5 +1,7 @@
 package model;
 
+import java.util.List;
+
 public interface PersonalDTO {
 
     Integer getId();
@@ -11,4 +13,8 @@ public interface PersonalDTO {
     int getSsn();
 
     String getEmail();
+    
+    List<Availability> getAv();
+    
+    void setAv(List<Availability> av);
 }

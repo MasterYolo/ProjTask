@@ -24,7 +24,7 @@
                 <h:outputText value="${user.email}"/>&nbsp;
                 <br/>
                 
-                <c:forEach items="${manager.availabilityList}" var="availability" >
+                <c:forEach items="${user.av}" var="availability" >
                 <h:outputLabel for="availabilityFrom" value="From: "/>
                 <h:outputText value="${availability.availabilityFrom}"/>&nbsp;
                 <br/>

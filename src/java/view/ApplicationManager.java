@@ -698,10 +698,10 @@ public class ApplicationManager implements Serializable {
                 int competenceProfileId = random.nextInt(100);
                 Availability av = new Availability(availableid, personid, getAvailabilityFrom(), getAvailabilityTo());
                 compFacade.register(personid, getUsername(), getPass(), getRole());
-                compFacade.registerPersonal(personid, getName(), getSurname(), getSsn(), getEmail(), getRole(),av);
+                compFacade.registerPersonal(personid, getName(), getSurname(), getSsn(), getEmail(),getRole(),av);
                 //compFacade.registerAvailability(availableid, personid, getAvailabilityFrom(), getAvailabilityTo());
-                compFacade.registerCompetence(competenceid, getCompetence());
-                compFacade.registerCompetenceProfile(competenceProfileId, personid, competenceid, Double.parseDouble(getExperience()));
+                //compFacade.registerCompetence(competenceid, getCompetence());
+                //compFacade.registerCompetenceProfile(competenceProfileId, personid, competenceid, Double.parseDouble(getExperience()));
                 setRegistrationSuccessfulStatus(true);
             } else {
                 setUserAlreadyExistsStatus(true);
