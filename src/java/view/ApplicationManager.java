@@ -27,7 +27,9 @@ import crypto.Hash;
 import model.Personal;
 
 /**
- * Changelog: 
+ * Changelog:
+ * -Added hash sha1 password. The input from the user is encrypted and compared
+ * with the one in the db.
  * -Added updated role
  * -Added rejectApplication.
  * - added unique id to Role - changed from hardcoded admin username
