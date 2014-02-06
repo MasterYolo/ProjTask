@@ -4,11 +4,14 @@
  * and open the template in the editor.
  */
 
-package model;
+package crypto;
 
-public interface RolesDTO {
-    Integer getId();
-    String getName();
-    Integer getuId();
-    void setuId(Integer uId);
+import java.security.NoSuchAlgorithmException;
+
+/**
+ *
+ * @author Micke
+ */
+public interface HashInterface {
+    String MakeHash() throws NoSuchAlgorithmException;
 }

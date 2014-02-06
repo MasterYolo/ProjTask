@@ -1,5 +1,6 @@
 package view;
 //hej
+
 import controller.CompanyFacade;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -22,9 +23,14 @@ import model.CompetenceDTO;
 import model.CompetenceProfileDTO;
 import model.PersonalDTO;
 import model.Roles;
+import crypto.Hash;
 
 /**
- * Changelog: -added roleid in register (Account)
+ * Changelog: 
+ * - added unique id to Role
+ * - changed from hardcoded admin username to use the roleid instead
+ * - added hashed sha1 password to the model. (Added crypto layer). -added
+ * roleid in register (Account)
  *
  * -submitApplication() removed. -register() now registers inputs from the user.
  * -register() now registers personal,account,availablity,competence and
@@ -647,27 +653,38 @@ public class ApplicationManager implements Serializable {
      return jsf22Bugfix();
      }
      */
-    /**
-     * Here's where the magic is happening!
-     *
-     * ConvManger is makeing a call to the ejb class ConvFacade which is getting
-     * the value from the javaDB through JPA (a presistant unit).
-     */
-    public String login() {
+    public String updateRole() {
         try {
             startConversation();
+            
+        } catch (Exception e) {
+            handleException(e);
+        }
+        return jsf22Bugfix();
+    }
+/**
+ * Here's where the magic is happening!
+ *
+ * ConvManger is makeing a call to the ejb class ConvFacade which is getting the
+ * value from the javaDB through JPA (a presistant unit).
+ */
+public String login() {
+        try {
+            startConversation();
+            Hash hash;
             loginuser = compFacade.getAccount(getUsername());
+            hash = new Hash(getPass());
             if (loginuser.getStatus() == true) {
                 setBannedStatus(true);
 
-            } else if ((loginuser.getUsername().equals("admin"))
-                    && loginuser.getPassword().equals(getPass())) {
+            } else if ((loginuser.getRoleId().equals("1"))
+                    && loginuser.getPassword().equals(hash.MakeHash())) {
                 //setLoggedInStatus(true);
                 setAdminStatus(true);
                 account = loginuser;
 
             } else if (loginuser.getUsername().equals(getUsername())
-                    && loginuser.getPassword().equals(getPass())) {
+                    && loginuser.getPassword().equals(hash.MakeHash())) {
                 setLoggedInStatus(true);
                 account = loginuser;
             }
@@ -698,34 +715,39 @@ public class ApplicationManager implements Serializable {
                 int availableid = random.nextInt(100);
                 int competenceid = random.nextInt(100);
                 int competenceProfileId = random.nextInt(100);
-                Roles role1 = new Roles(1,"Admin");
-                Roles role2 = new Roles(2,"Recruit");
-                Roles role3 = new Roles(3,"Job seeker");
+                int roleId = random.nextInt(100);
+                Roles role1 = new Roles(roleId, 1, "Admin");
+                Roles role2 = new Roles(roleId, 2, "Recruit");
+                Roles role3 = new Roles(roleId, 3, "Job seeker");
                 Competence competence;
-                
+                Hash hash;
                 if (getRole().equals("1")) {
+
                     Availability av = new Availability(availableid, personid, getAvailabilityFrom(), getAvailabilityTo());
+                    hash = new Hash(getPass());
                     competence = new Competence(competenceid, getCompetence());
-                    compFacade.register(personid, getUsername(), getPass(), getRole());
-                    compFacade.registerPersonal(personid, getName(), getSurname(), getSsn(), getEmail(),getRole(),role1, av, competence);
+                    compFacade.register(personid, getUsername(), hash.MakeHash(), getRole());
+                    compFacade.registerPersonal(personid, getName(), getSurname(), getSsn(), getEmail(), getRole(), role1, av, competence);
                     //compFacade.registerAvailability(availableid, personid, getAvailabilityFrom(), getAvailabilityTo());
                     //compFacade.registerCompetence(competenceid, getCompetence());
                     //compFacade.registerCompetenceProfile(competenceProfileId, personid, competenceid, Double.parseDouble(getExperience()));
 
                 } else if (getRole().equals("2")) {
                     Availability av = new Availability(availableid, personid, getAvailabilityFrom(), getAvailabilityTo());
+                    hash = new Hash(getPass());
                     competence = new Competence(competenceid, getCompetence());
-                    compFacade.register(personid, getUsername(), getPass(), getRole());
-                    compFacade.registerPersonal(personid, getName(), getSurname(), getSsn(), getEmail(),getRole(),role2, av, competence);
+                    compFacade.register(personid, getUsername(), hash.MakeHash(), getRole());
+                    compFacade.registerPersonal(personid, getName(), getSurname(), getSsn(), getEmail(), getRole(), role2, av, competence);
                     //compFacade.registerAvailability(availableid, personid, getAvailabilityFrom(), getAvailabilityTo());
                     //compFacade.registerCompetence(competenceid, getCompetence());
                     //compFacade.registerCompetenceProfile(competenceProfileId, personid, competenceid, Double.parseDouble(getExperience()));
 
                 } else if (getRole().equals("3")) {
                     Availability av = new Availability(availableid, personid, getAvailabilityFrom(), getAvailabilityTo());
+                    hash = new Hash(getPass());
                     competence = new Competence(competenceid, getCompetence());
-                    compFacade.register(personid, getUsername(), getPass(), getRole());
-                    compFacade.registerPersonal(personid, getName(), getSurname(), getSsn(), getEmail(),getRole(),role3, av, competence);
+                    compFacade.register(personid, getUsername(), hash.MakeHash(), getRole());
+                    compFacade.registerPersonal(personid, getName(), getSurname(), getSsn(), getEmail(), getRole(), role3, av, competence);
                     //compFacade.registerAvailability(availableid, personid, getAvailabilityFrom(), getAvailabilityTo());
                     //compFacade.registerCompetence(competenceid, getCompetence());
                     //compFacade.registerCompetenceProfile(competenceProfileId, personid, competenceid, Double.parseDouble(getExperience()));

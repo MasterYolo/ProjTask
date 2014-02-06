@@ -115,8 +115,8 @@ public class CompanyFacade {
      * @param name
      * @return
      */
-    public RolesDTO registerRole(int id, String name) {
-        Roles roles = new Roles(id, name);
+    public RolesDTO registerRole(int uid,int id, String name) {
+        Roles roles = new Roles(uid,id, name);
         em.persist(roles);
         return roles;
     }

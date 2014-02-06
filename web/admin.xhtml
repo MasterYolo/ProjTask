@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Such site. Very design. Wow!</title>
         <link rel="shortcut icon" href="http://www.iconj.com/ico/8/r/8r7hi19084.ico" type="image/x-icon" />
@@ -37,8 +38,18 @@
                     <h:outputText value="${competence.name}"/>&nbsp;                  
                     <br/>
                 </c:forEach>
+                <h:selectOneMenu value="#{user.roleId}">
+                    <f:selectItem itemValue="3" itemLabel="Job seeker" />
+                    <f:selectItem itemValue="2" itemLabel="Recruiter" />
+                    <f:selectItem itemValue="1" itemLabel="Admin" />
+                </h:selectOneMenu>
+                <br/>
+                <h:commandButton value="Accept" />
+                <h:commandButton value="X" />
+                <br />
+                <hr />
             </c:forEach>
-            <hr/>
+
             <h:commandButton value="Refresh" action="#{manager.updateApplications()}"/>
 
         </h:form>

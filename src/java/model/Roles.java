@@ -21,12 +21,14 @@ public class Roles implements Serializable,RolesDTO {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer uId;
     private Integer id;
     private String name;
 
     public Roles() {}
     
-    public Roles(int id, String name) {
+    public Roles(int uId,int id, String name) {
+        this.uId = uId;
         this.id = id;
         this.name = name;
     }
@@ -45,5 +47,14 @@ public class Roles implements Serializable,RolesDTO {
     public void setName(String name) {
         this.name = name;
     }
+
+    public Integer getuId() {
+        return uId;
+    }
+
+    public void setuId(Integer uId) {
+        this.uId = uId;
+    }
+    
 }
 
