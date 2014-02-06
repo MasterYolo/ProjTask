@@ -28,6 +28,7 @@ import model.Personal;
 
 /**
  * Changelog:
+ * -UpdateApplication on login, updateRole and rejectApplication.
  * -Added hash sha1 password. The input from the user is encrypted and compared
  * with the one in the db.
  * -Added updated role
