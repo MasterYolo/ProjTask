@@ -24,13 +24,15 @@ import model.CompetenceProfileDTO;
 import model.PersonalDTO;
 import model.Roles;
 import crypto.Hash;
+import model.Personal;
 
 /**
  * Changelog: 
- * - added unique id to Role
- * - changed from hardcoded admin username to use the roleid instead
- * - added hashed sha1 password to the model. (Added crypto layer). -added
- * roleid in register (Account)
+ * -Added updated role
+ * -Added rejectApplication.
+ * - added unique id to Role - changed from hardcoded admin username
+ * to use the roleid instead - added hashed sha1 password to the model. (Added
+ * crypto layer). -added roleid in register (Account)
  *
  * -submitApplication() removed. -register() now registers inputs from the user.
  * -register() now registers personal,account,availablity,competence and
@@ -653,22 +655,53 @@ public class ApplicationManager implements Serializable {
      return jsf22Bugfix();
      }
      */
-    public String updateRole() {
+    /**
+     *
+     * @param personId
+     * @return
+     */
+    public String updateRole(int personId,String roleId) {
         try {
             startConversation();
-            
+            for (PersonalDTO jobseeker : getJobSeekerList()) {
+                if (jobseeker.getId().equals(personId)) {
+                    compFacade.updateRole(personId, roleId);
+                }
+            }
+            updateApplications();
         } catch (Exception e) {
             handleException(e);
         }
         return jsf22Bugfix();
     }
-/**
- * Here's where the magic is happening!
- *
- * ConvManger is makeing a call to the ejb class ConvFacade which is getting the
- * value from the javaDB through JPA (a presistant unit).
- */
-public String login() {
+
+    /**
+     *
+     * @param personId
+     * @return
+     */
+    public String rejectApplication(int personId) {
+        try {
+            startConversation();
+            for (PersonalDTO jobseeker : getJobSeekerList()) {
+                if (jobseeker.getId().equals(personId)) {
+                    compFacade.unregisterPersonal(personId);
+                }
+            }
+            updateApplications();
+        } catch (Exception e) {
+            handleException(e);
+        }
+        return jsf22Bugfix();
+    }
+
+    /**
+     * Here's where the magic is happening!
+     *
+     * ConvManger is makeing a call to the ejb class ConvFacade which is getting
+     * the value from the javaDB through JPA (a presistant unit).
+     */
+    public String login() {
         try {
             startConversation();
             Hash hash;
@@ -682,6 +715,7 @@ public String login() {
                 //setLoggedInStatus(true);
                 setAdminStatus(true);
                 account = loginuser;
+                updateApplications();
 
             } else if (loginuser.getUsername().equals(getUsername())
                     && loginuser.getPassword().equals(hash.MakeHash())) {

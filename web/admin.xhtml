@@ -44,8 +44,8 @@
                     <f:selectItem itemValue="1" itemLabel="Admin" />
                 </h:selectOneMenu>
                 <br/>
-                <h:commandButton value="Accept" />
-                <h:commandButton value="X" />
+                <h:commandButton value="Accept" action="#{manager.updateRole(user.id,user.roleId)}" />
+                <h:commandButton value="X" action ="#{manager.rejectApplication(user.id)}"/>
                 <br />
                 <hr />
             </c:forEach>

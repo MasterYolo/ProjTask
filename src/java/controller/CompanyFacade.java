@@ -83,10 +83,25 @@ public class CompanyFacade {
      * @param email
      * @return
      */
-    public PersonalDTO registerPersonal(int id, String name, String surname, int ssn, String email,String roleId,Roles role, Availability av, Competence competence) {
-        Personal pers = new Personal(id, name, surname, ssn, email,roleId, role, av, competence);
+    public PersonalDTO registerPersonal(int id, String name, String surname, int ssn, String email, String roleId, Roles role, Availability av, Competence competence) {
+        Personal pers = new Personal(id, name, surname, ssn, email, roleId, role, av, competence);
         em.persist(pers);
         return pers;
+    }
+
+    public PersonalDTO updateRole(int id, String roleId) {
+        Personal pers = em.find(Personal.class, id);
+        Query query = em.createQuery("UPDATE Personal p SET p.roleId = :roleId WHERE p.id = :id");
+        query.setParameter("id", id);
+        query.setParameter("roleId", roleId);
+        query.executeUpdate();
+        return pers;
+    }
+
+    public void unregisterPersonal(int id) {
+        Query query = em.createQuery("DELETE FROM Personal p WHERE p.id = :id");
+        query.setParameter("id", id);
+        query.executeUpdate();
     }
 
     /**
@@ -115,8 +130,8 @@ public class CompanyFacade {
      * @param name
      * @return
      */
-    public RolesDTO registerRole(int uid,int id, String name) {
-        Roles roles = new Roles(uid,id, name);
+    public RolesDTO registerRole(int uid, int id, String name) {
+        Roles roles = new Roles(uid, id, name);
         em.persist(roles);
         return roles;
     }
@@ -150,6 +165,7 @@ public class CompanyFacade {
         }
         return account;
     }
+
     /**
      * Method to retrieve a list of available accounts from the database.
      *
