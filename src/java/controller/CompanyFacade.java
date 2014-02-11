@@ -83,8 +83,10 @@ public class CompanyFacade {
      * @param email
      * @return
      */
-    public PersonalDTO registerPersonal(int id, String name, String surname, int ssn, String email, String roleId, Roles role, Availability av, Competence competence) {
-        Personal pers = new Personal(id, name, surname, ssn, email, roleId, role, av, competence);
+    public PersonalDTO registerPersonal(int id, String name, String surname, int ssn,
+            String email, String roleId, Roles role,
+            Availability av, Competence competence, CompetenceProfile competenceProfile) {
+        Personal pers = new Personal(id, name, surname, ssn, email, roleId, role, av, competence, competenceProfile);
         em.persist(pers);
         return pers;
     }
@@ -98,8 +100,38 @@ public class CompanyFacade {
         return pers;
     }
 
+    public void unregisterAccount(int id) {
+        Query query = em.createQuery("DELETE FROM Account a WHERE a.personalId = :id");
+        query.setParameter("id", id);
+        query.executeUpdate();
+    }
+
+    public void unregisterAvailability(int id) {
+        Query query = em.createQuery("DELETE FROM Availability a WHERE a.personal_id = :id");
+        query.setParameter("id", id);
+        query.executeUpdate();
+    }
+
+    public void unregisterCompetence(int id) {
+        Query query = em.createQuery("DELETE FROM Competence c WHERE c.id = :id");
+        query.setParameter("id", id);
+        query.executeUpdate();
+    }
+
+    public void unregisterCompetenceProfile(int id) {
+        Query query = em.createQuery("DELETE FROM CompetenceProfile cp WHERE cp.person_id = :id");
+        query.setParameter("id", id);
+        query.executeUpdate();
+    }
+
     public void unregisterPersonal(int id) {
         Query query = em.createQuery("DELETE FROM Personal p WHERE p.id = :id");
+        query.setParameter("id", id);
+        query.executeUpdate();
+    }
+
+    public void unregisterRole(int id) {
+        Query query = em.createQuery("DELETE FROM Roles r WHERE r.uId = :id");
         query.setParameter("id", id);
         query.executeUpdate();
     }

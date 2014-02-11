@@ -13,12 +13,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 /**
- * Changelog:
- * -added role.
+ * Changelog: -added role.
+ *
  * @author Micke
  */
 @Entity
 public class Personal implements PersonalDTO, Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -37,10 +38,10 @@ public class Personal implements PersonalDTO, Serializable {
     public void setRoleId(String roleId) {
         this.roleId = roleId;
     }
-    
+
     @OneToMany(cascade = CascadeType.ALL)
     List<Availability> av = new ArrayList();
-    
+
     public List<Availability> getAv() {
         return av;
     }
@@ -48,7 +49,7 @@ public class Personal implements PersonalDTO, Serializable {
     public void setAv(List<Availability> av) {
         this.av = av;
     }
-    
+
     @OneToMany(cascade = CascadeType.ALL)
     List<Roles> role = new ArrayList();
 
@@ -59,7 +60,7 @@ public class Personal implements PersonalDTO, Serializable {
     public void setRole(List<Roles> role) {
         this.role = role;
     }
-    @OneToMany (cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     List<Competence> competence = new ArrayList();
 
     public List<Competence> getCompetence() {
@@ -69,11 +70,22 @@ public class Personal implements PersonalDTO, Serializable {
     public void setCompetence(List<Competence> competence) {
         this.competence = competence;
     }
-    
+
+    @OneToMany(cascade = CascadeType.ALL)
+    List<CompetenceProfile> competenceProfile = new ArrayList();
+
+    public List<CompetenceProfile> getCompetenceProfile() {
+        return competenceProfile;
+    }
+
+    public void setCompetenceProfile(List<CompetenceProfile> competenceProfile) {
+        this.competenceProfile = competenceProfile;
+    }
+
     public Personal() {
     }
 
-    public Personal(int id,String name, String surname, int ssn, String email,String roleId,Roles role,Availability av, Competence competence) {
+    public Personal(int id, String name, String surname, int ssn, String email, String roleId, Roles role, Availability av, Competence competence, CompetenceProfile competenceProfile) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -83,6 +95,7 @@ public class Personal implements PersonalDTO, Serializable {
         this.role.add(role);
         this.av.add(av);
         this.competence.add(competence);
+        this.competenceProfile.add(competenceProfile);
     }
 
     public Integer getId() {

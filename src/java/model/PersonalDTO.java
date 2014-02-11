@@ -29,4 +29,8 @@ public interface PersonalDTO {
     List<Availability> getAv();
     
     void setAv(List<Availability> av);
+    
+    List<CompetenceProfile> getCompetenceProfile();
+    
+    
 }
