@@ -1,6 +1,7 @@
 package view;
 
-import controller.CompanyFacade;
+import controller.AdminFacade;
+import controller.LoginFacade;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,8 +53,10 @@ public class ApplicationManager implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @EJB
-    /* Instance object variables */
-    private CompanyFacade compFacade;
+    private AdminFacade adminFacade;
+    @EJB
+    private LoginFacade loginFacade;
+    
     private AccountDTO loginuser;
     private AccountDTO account;
 
@@ -157,7 +160,7 @@ public class ApplicationManager implements Serializable {
      * @return List of accounts from the database
      */
     public void updateApplications() {
-        jobSeekerList = compFacade.getJobSeekerList();
+        jobSeekerList = adminFacade.getJobSeekerList();
     }
 
     /**
@@ -195,7 +198,7 @@ public class ApplicationManager implements Serializable {
      */
     
     public void setJobSeekerList(List<PersonalDTO> jobSeekerList) {
-        jobSeekerList = compFacade.getJobSeekerList();
+        jobSeekerList = adminFacade.getJobSeekerList();
     }
 
     /**
@@ -204,7 +207,7 @@ public class ApplicationManager implements Serializable {
      * @param accountList accountlist.
      */
     public void setAccountList(List<AccountDTO> accountList) {
-        accountList = compFacade.getAccountList();
+        accountList = loginFacade.getAccountList();
     }
 
     /**
@@ -548,7 +551,7 @@ public class ApplicationManager implements Serializable {
      */
     public String banHammer() {
         try {
-            compFacade.updateStatus(getUsername(), true);
+            adminFacade.updateStatus(getUsername(), true);
         } catch (Exception e) {
             handleException(e);
         }
@@ -558,7 +561,7 @@ public class ApplicationManager implements Serializable {
      * Updates the display of accounts in Admin.xhtml.
      */
     public void updateAccountList() {
-        accountList = compFacade.getAccountList();
+        accountList = loginFacade.getAccountList();
     }
 
     /**
@@ -588,7 +591,7 @@ public class ApplicationManager implements Serializable {
             startConversation();
             for (PersonalDTO jobseeker : getJobSeekerList()) {
                 if (jobseeker.getId().equals(personId)) {
-                    compFacade.updateRole(personId, roleId);
+                    adminFacade.updateRole(personId, roleId);
                 }
             }
             updateApplications();
@@ -610,20 +613,20 @@ public class ApplicationManager implements Serializable {
             for (PersonalDTO jobseeker : getJobSeekerList()) {
                 if (jobseeker.getId().equals(personId)) {
 
-                    compFacade.unregisterPersonal(personId);
+                    adminFacade.unregisterPersonal(personId);
 
-                    compFacade.unregisterAccount(personId);
+                    adminFacade.unregisterAccount(personId);
 
-                    compFacade.unregisterAvailability(personId);
+                    adminFacade.unregisterAvailability(personId);
 
                     for (CompetenceDTO competence : jobseeker.getCompetence()) {
-                        compFacade.unregisterCompetence(competence.getId());
+                        adminFacade.unregisterCompetence(competence.getId());
                     }
 
-                    compFacade.unregisterCompetenceProfile(personId);
+                    adminFacade.unregisterCompetenceProfile(personId);
 
                     for (RolesDTO role : jobseeker.getRole()) {
-                        compFacade.unregisterRole(role.getuId());
+                        adminFacade.unregisterRole(role.getuId());
                     }
                 }
             }
@@ -649,7 +652,7 @@ public class ApplicationManager implements Serializable {
         try {
             startConversation();
             Hash hash;
-            loginuser = compFacade.getAccount(getUsername());
+            loginuser = loginFacade.getAccount(getUsername());
             hash = new Hash(getPass());
             if (loginuser.getStatus() == true) {
                 setBannedStatus(true);
@@ -681,7 +684,7 @@ public class ApplicationManager implements Serializable {
 
         try {
             startConversation();
-            loginuser = compFacade.checkUserExists(getUsername());
+            loginuser = loginFacade.checkUserExists(getUsername());
 
             if (loginuser == null) {
                 Random random;
@@ -703,23 +706,23 @@ public class ApplicationManager implements Serializable {
                     CompetenceProfile cp = new CompetenceProfile(competenceProfileId, personid, competenceid, Double.parseDouble(getExperience()));
                     hash = new Hash(getPass());
                     competence = new Competence(competenceid, getCompetence());
-                    compFacade.register(personid, getUsername(), hash.MakeHash(), getRole());
-                    compFacade.registerPersonal(personid, getName(), getSurname(), getSsn(), getEmail(), getRole(), adminRole, av, competence, cp);
+                    adminFacade.register(personid, getUsername(), hash.MakeHash(), getRole());
+                    adminFacade.registerPersonal(personid, getName(), getSurname(), getSsn(), getEmail(), getRole(), adminRole, av, competence, cp);
 
                 } else if (getRole().equals("2")) {
                     Availability av = new Availability(availableid, personid, getAvailabilityFrom(), getAvailabilityTo());
                     CompetenceProfile cp = new CompetenceProfile(competenceProfileId, personid, competenceid, Double.parseDouble(getExperience()));
                     hash = new Hash(getPass());
                     competence = new Competence(competenceid, getCompetence());
-                    compFacade.register(personid, getUsername(), hash.MakeHash(), getRole());
-                    compFacade.registerPersonal(personid, getName(), getSurname(), getSsn(), getEmail(), getRole(), recruitRole, av, competence, cp);
+                    adminFacade.register(personid, getUsername(), hash.MakeHash(), getRole());
+                    adminFacade.registerPersonal(personid, getName(), getSurname(), getSsn(), getEmail(), getRole(), recruitRole, av, competence, cp);
                 } else if (getRole().equals("3")) {
                     Availability av = new Availability(availableid, personid, getAvailabilityFrom(), getAvailabilityTo());
                     CompetenceProfile cp = new CompetenceProfile(competenceProfileId, personid, competenceid, Double.parseDouble(getExperience()));
                     hash = new Hash(getPass());
                     competence = new Competence(competenceid, getCompetence());
-                    compFacade.register(personid, getUsername(), hash.MakeHash(), getRole());
-                    compFacade.registerPersonal(personid, getName(), getSurname(), getSsn(), getEmail(), getRole(), jobSeekerRole, av, competence, cp);
+                    adminFacade.register(personid, getUsername(), hash.MakeHash(), getRole());
+                    adminFacade.registerPersonal(personid, getName(), getSurname(), getSsn(), getEmail(), getRole(), jobSeekerRole, av, competence, cp);
                 }
                 setRegistrationSuccessfulStatus(true);
             } else {
