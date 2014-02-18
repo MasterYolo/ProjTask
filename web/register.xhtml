@@ -24,45 +24,55 @@
             <p>
                 <h:outputLabel for="name" value="Name: "/>
                 <br/>
-                <h:inputText id="name" value="#{manager.name}" />
+                <h:inputText id="name" value="#{manager.name}" required="true" />
+                <h:message for="name" style="color:red"/>
                 <br/>
                 <h:outputLabel for="surname" value="Surname: "/>
                 <br/>
-                <h:inputText  id="surname" value="#{manager.surname}"  />
+                <h:inputText  id="surname" value="#{manager.surname}" required="true"/>
+                <h:message for="surname" style="color:red"/>
                 <br/>
                 <h:outputLabel for="ssn" value="Ssn: "/>
                 <br/>
-                <h:inputText  id="ssn" value="#{manager.ssn}"  />
+                <h:inputText id="ssn" value="#{manager.ssn}" required="true" maxlength="10"/>
+                <h:message for="ssn" style="color:red"/>
                 <br/>
                 <h:outputLabel for="email" value="Email: "/>
                 <br/>
-                <h:inputText  id="email" value="#{manager.email}"  />
+                <h:inputText  id="email" value="#{manager.email}" required="true" />
+                <h:message for="email" style="color:red"/>
                 <br/>
                 <h:outputLabel for="Username" value="Username: "/>
                 <br/>
-                <h:inputText id="Username" value="#{manager.username}"/>
+                <h:inputText id="Username" value="#{manager.username}" required="true"/>
+                <h:message for="Username" style="color:red"/>
                 <br/>
                 <h:outputLabel for="Password" value="Password: "/>
                 <br/>
-                <h:inputSecret  id="Password" value="#{manager.pass}"  />
+                <h:inputSecret  id="Password" value="#{manager.pass}" required="true"  />
+                <h:message for="Password" style="color:red"/>
                 <br/>
                 <hr/>
                 <h3>Please fill in the application below!</h3>
                 <h:outputLabel for="availability-from" value="Availability from: "/>
                 <br/>
-                <h:inputText id="availability-from" value="#{manager.availabilityFrom}"/>
+                <h:inputText id="availability-from" value="#{manager.availabilityFrom}" required="true"/>
+                <h:message for="availability-from" style="color:red"/>
                 <br/>
                 <h:outputLabel for="availability-to" value="Availability to: "/>
                 <br/>
-                <h:inputText id="availability-to" value="#{manager.availabilityTo}"/>
+                <h:inputText id="availability-to" value="#{manager.availabilityTo}" required="true"/>
+                <h:message for="availability-to" style="color:red"/>
                 <br/>
                 <h:outputLabel for="Competence" value="Competence: "/>
                 <br/>
-                <h:inputText id="Competence" value="#{manager.competence}"/>
+                <h:inputText id="Competence" value="#{manager.competence}" required="true"/>
+                <h:message for="Competence" style="color:red"/>
                 <br/>
                 <h:outputLabel for="Experience" value="Experience: "/>
                 <br/>
-                <h:inputText id="Experience" value="#{manager.experience}"/>
+                <h:inputText id="Experience" value="#{manager.experience}" required="true"/>
+                <h:message for="Experience" style="color:red"/>
                 <br/>
                 <h:outputLabel for="Role" value="Role: "/>
                 <h:selectOneMenu id ="Role" value="#{manager.role}">

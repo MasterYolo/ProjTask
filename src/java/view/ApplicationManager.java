@@ -20,6 +20,8 @@ import model.CompetenceProfileDTO;
 import model.PersonalDTO;
 import model.Roles;
 import crypto.Hash;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import model.CompetenceProfile;
 import model.RolesDTO;
 
@@ -164,7 +166,7 @@ public class ApplicationManager implements Serializable {
     }
 
     /**
-     * 
+     * AND goo!
      * @return 
      */
     
@@ -670,7 +672,8 @@ public class ApplicationManager implements Serializable {
             }
 
         } catch (Exception e) {
-            handleException(e);
+            FacesContext.getCurrentInstance().addMessage("loginform:Username", 
+                    new FacesMessage("Login failed: Wrong username or password"));
         }
         return jsf22Bugfix();
     }

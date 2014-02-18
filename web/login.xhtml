@@ -7,7 +7,7 @@
         <link rel="shortcut icon" href="http://www.iconj.com/ico/8/r/8r7hi19084.ico" type="image/x-icon" />
     </h:head>
     <h:body>
-        <h:form>
+        <h:form id="loginform">
             <p>
                 <h:outputLabel for="Account" rendered="#{manager.adminStatus}">
                     <script>
@@ -39,9 +39,11 @@
             <p>
 
                 <h:outputLabel for="Username" value="Username: "/>
-                <h:inputText id="Username" value="#{manager.username}"/>
+                <h:inputText id="Username" required="true" value="#{manager.username}"/>
+                <h:message for="Username" style="color:red"/>
                 <h:outputLabel for="Password" value="Password: "/>
-                <h:inputSecret  id="Password" value="#{manager.pass}"  />
+                <h:inputSecret  id="Password" required="true" value="#{manager.pass}"  />
+                <h:message for="Username" style="color:red"/>
             </p>
             <p>
                 <h:commandButton value="Register" action ="register.xhtml"/>

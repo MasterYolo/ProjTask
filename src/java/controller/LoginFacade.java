@@ -68,7 +68,7 @@ public class LoginFacade {
      * primary key.
      * @return If the username exists, return it. Otherwise throw exception.
      */
-    public AccountDTO getAccount(String username) {
+    public AccountDTO getAccount(String username) throws EntityNotFoundException {
 
         Account account = em.find(Account.class, username);
         if (account == null) {
