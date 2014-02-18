@@ -3,20 +3,16 @@ package view;
 import controller.CompanyFacade;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 import javax.ejb.EJB;
 
 import javax.enterprise.context.Conversation;
-import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import model.AccountDTO;
 import model.Availability;
-import model.AvailabilityDTO;
 import model.Competence;
 import model.CompetenceDTO;
 import model.CompetenceProfileDTO;
@@ -24,7 +20,6 @@ import model.PersonalDTO;
 import model.Roles;
 import crypto.Hash;
 import model.CompetenceProfile;
-import model.Personal;
 import model.RolesDTO;
 
 /**
@@ -49,7 +44,7 @@ import model.RolesDTO;
  *
  *
  *
- * @author Mikael and Max
+ * @author Mikael, Max och Kalle
  */
 @Named("manager")
 @SessionScoped
@@ -69,13 +64,7 @@ public class ApplicationManager implements Serializable {
     /* Array lists used in the view */
     private List<PersonalDTO> personalList = new ArrayList<PersonalDTO>();
     private List<AccountDTO> accountList = new ArrayList<AccountDTO>();
-    private List<AvailabilityDTO> availabilityList = new ArrayList<AvailabilityDTO>();
-    private List<CompetenceDTO> competenceList = new ArrayList<CompetenceDTO>();
-    private List<CompetenceProfileDTO> competenceProfileList = new ArrayList<CompetenceProfileDTO>();
     private List<PersonalDTO> jobSeekerList = new ArrayList<PersonalDTO>();
-    private Map<Integer, String> jobSeekerAvailability = new HashMap<Integer, String>();
-    //private List<ProductDTO> productList = new ArrayList<ProductDTO>();
-    // private List<ProductDTO> shoppingList = new ArrayList<ProductDTO>();
 
     /* Account variables */
     private String username;
@@ -94,8 +83,6 @@ public class ApplicationManager implements Serializable {
     private String role;
 
     /*Person variables */
-    //private String personId;
-    //  private int id;
     private String name;
     private String surname;
     private int ssn;
@@ -173,36 +160,42 @@ public class ApplicationManager implements Serializable {
         jobSeekerList = compFacade.getJobSeekerList();
     }
 
-    public Map<Integer, String> getJobSeekerAvailability() {
-        return jobSeekerAvailability;
-    }
-
-    public void setJobSeekerAvailability(Map<Integer, String> jobSeekerAvailability) {
-        this.jobSeekerAvailability = jobSeekerAvailability;
-    }
-
+    /**
+     * 
+     * @return 
+     */
+    
     public List<AccountDTO> getAccountList() {
         return accountList;
     }
 
+    /**
+     * 
+     * @return 
+     */
+    
     public List<PersonalDTO> getPersonalList() {
         return personalList;
     }
 
-    public void setPersonalList(List<PersonalDTO> personalList) {
-        personalList = compFacade.getPersonalList();
-    }
-
+    /**
+     * Method to retrieve a list of job seekers.
+     * 
+     * @return A list of PersonalDTO objects.
+     */
+    
     public List<PersonalDTO> getJobSeekerList() {
         return jobSeekerList;
     }
 
+    /**
+     * Method to modifiy a job seeker list.
+     * 
+     * @param jobSeekerList The job seeker list to be modified.
+     */
+    
     public void setJobSeekerList(List<PersonalDTO> jobSeekerList) {
         jobSeekerList = compFacade.getJobSeekerList();
-    }
-
-    public List<AvailabilityDTO> getAvailabilityList() {
-        return availabilityList;
     }
 
     /**
@@ -214,81 +207,6 @@ public class ApplicationManager implements Serializable {
         accountList = compFacade.getAccountList();
     }
 
-    /**
-     * Method to fetch ProductList.
-     *
-     * @return List of all the products from the database.
-     */
-    /*public List<ProductDTO> getProductList() {
-     return productList;
-     }
-     */
-    /**
-     * Method to recognize the variable ProductList in the JSF page.
-     *
-     * @param productList Variable used to enable write rights in the web
-     * interface.
-     */
-    /*public void setProductList(List<ProductDTO> productList) {
-     productList = compFacade.getProductList();
-     }
-     */
-    /**
-     * Method to fetch a customers product List.
-     *
-     * @return The current shopping list for the current customer.
-     */
-    /*public List<ProductDTO> getShoppingList() {
-     return shoppingList;
-     }
-     */
-    /**
-     * Method to recognize the variable AccountList in the JSF pages.
-     *
-     * @param shoppingList The shopping list for a specific customer.
-     */
-    /*public void setShoppingList(List<ProductDTO> shoppingList) {
-     this.shoppingList = shoppingList;
-     }
-     */
-    /**
-     * Method to get the product name field from the JSF pages.
-     *
-     * @return Returns text from the product name input field in the
-     * customer.xhtml page.
-     */
-    /*public String getProductname() {
-     return productname;
-     }
-     */
-    /**
-     * Method to recognize productname in the JSF pages.
-     *
-     * @param productname The Productname that is going to be modified.
-     */
-    /*public void setProductname(String productname) {
-     this.productname = productname;
-     }
-     */
-    /**
-     * Method to recognize amount in the JSF pages.
-     *
-     * @param amount The amount that is going to be modified.
-     */
-    /*    public void setAmount(String amount) {
-     this.amount = amount;
-     }
-     */
-    /**
-     * Retrieves the input from the amunt field in either admin.xhtml or
-     * customer.xhtml.
-     *
-     * @return
-     */
-    /*  public String getAmount() {
-     return amount;
-     }
-     */
     /**
      * Returns already exists status.
      *
@@ -327,7 +245,6 @@ public class ApplicationManager implements Serializable {
     }
 
     /**
-     *
      * Returns the registrationSuccessfulStatus
      *
      * @return True if the registration was successful otherwise false.
@@ -364,82 +281,186 @@ public class ApplicationManager implements Serializable {
         return adminStatus;
     }
 
+    /**
+     * Retrieves the roleID.
+     * 
+     * @return roleID.
+     */
+    
     public String getRole() {
         return role;
     }
 
+    /**
+     * Retrieves the name from the XHTML page.
+     * 
+     * @return name.
+     */
+    
     public String getName() {
         return name;
     }
 
+    /**
+     * Retrieves the surname from the XHTML page.
+     * 
+     * @return surname.
+     */
+    
     public String getSurname() {
         return surname;
     }
 
+    /**
+     * Retrieves the social security number (ssn) from XHTML page.
+     * 
+     * @return ssn.
+     */
+    
     public int getSsn() {
         return ssn;
     }
 
+    /**
+     * Returns the Email address of the user
+     * @return Email address
+     */
+    
     public String getEmail() {
         return email;
     }
 
+    /**
+     * Set the role of the user
+     * @param role represents the kind of role the user is getting
+     */
+    
     public void setRole(String role) {
         this.role = role;
     }
 
+    /**
+     *  Set the user's name
+     * @param name name of the user 
+     */
+    
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Set the user's surname   
+     * @param surname surname of the user
+     */
+    
     public void setSurname(String surname) {
         this.surname = surname;
     }
 
+    /**
+     * set the social security number
+     * @param ssn represents a person's social security number
+     */
+    
     public void setSsn(int ssn) {
         this.ssn = ssn;
     }
 
+    /**
+     * Set the email of the user
+     * @param email string that represents the desired email address
+     */
+    
     public void setEmail(String email) {
         this.email = email;
     }
+    
+    /**
+     * returns a person's "from" availability
+     * @return the from availability
+     */
 
     public String getAvailabilityFrom() {
         return availabilityFrom;
     }
 
+    /**
+     * set a job seekers availability
+     * @param availabilityFrom the availability entered by the user
+     */
+    
     public void setAvailabilityFrom(String availabilityFrom) {
         this.availabilityFrom = availabilityFrom;
     }
 
+    /**
+     * returns the "to" availability of a user
+     * @return the "to" abailability
+     */
+    
     public String getAvailabilityTo() {
         return availabilityTo;
     }
 
+    /**
+     * Set the "To" availability of a person    
+     * @param availabilityTo  
+     */
+    
     public void setAvailabilityTo(String availabilityTo) {
         this.availabilityTo = availabilityTo;
     }
 
+    /**
+     * Retrives the competence of a person.
+     * @return The competence of a person
+     */
+    
     public String getCompetence() {
         return competence;
     }
 
+    /**
+     * Set the competence of a person
+     * @param competence 
+     */
+    
     public void setCompetence(String competence) {
         this.competence = competence;
     }
 
+    /**
+     * Returns the experience of a person
+     * @return the experience
+     */
+    
     public String getExperience() {
         return experience;
     }
 
+    /**
+     * set the experience of a person 
+     * @param experience the experience entered by the user
+     */
+    
     public void setExperience(String experience) {
         this.experience = experience;
     }
 
+    /**
+     * Gets the entire PersonalDTO representing a person
+     * @return the PersonalDTO object
+     */
+    
     public PersonalDTO getPersoninfo() {
         return personinfo;
     }
 
+    /**
+     * Set the Personal information 
+     * @param personinfo the PersonalDTO containing all the information
+     */
+    
     public void setPersoninfo(PersonalDTO personinfo) {
         this.personinfo = personinfo;
     }
@@ -516,22 +537,6 @@ public class ApplicationManager implements Serializable {
     public boolean getBannedStatus() {
         return status;
     }
-
-    /**
-     * Method call to purchase the selected products from customers basket.
-     *
-     * @return Empty string, if transaction succeeds, otherwise the occured
-     * error.
-     */
-    /*public String purchaseProducts() {
-     try {
-     shoppingList.removeAll(shoppingList);
-     } catch (Exception e) {
-     handleException(e);
-     }
-     return jsf22Bugfix();
-     }
-     */
     /**
      * Bans a customer from Admin interface
      *
@@ -549,28 +554,6 @@ public class ApplicationManager implements Serializable {
         }
         return jsf22Bugfix();
     }
-
-    /**
-     * Method called when you press the "Remove amount" button in the JSF page.
-     *
-     * The method passes the product name (It's actually the productId). It is
-     * sent to the compfacade which changes the record in the DB.
-     *
-     * @return Empty string, if transaction succeeds, otherwise the occured
-     * error.
-     */
-    /*public String update() {
-     try {
-     startConversation();
-     compFacade.updateProduct(getProductname(), Integer.parseInt(getAmount()));
-     Product product = new Product(getProductname(), Integer.parseInt(getAmount()));
-     shoppingList.add(product);
-     } catch (Exception e) {
-     handleException(e);
-     }
-     return jsf22Bugfix();
-     }
-     */
     /**
      * Updates the display of accounts in Admin.xhtml.
      */
@@ -578,31 +561,6 @@ public class ApplicationManager implements Serializable {
         accountList = compFacade.getAccountList();
     }
 
-    /**
-     * Updates the display of products in both Customer.xhtml and Admin.xhtml
-     */
-    /*public void updateProductList() {
-     productList = compFacade.getProductList();
-     }
-     */
-    /**
-     * Method used to call the compFacade method updateProduct(), which removes
-     * a specific amount of a product (article) from the productlist and from
-     * DB.
-     *
-     * @return Empty string, if transaction succeeds, otherwise the occured
-     * error.
-     */
-    /*public String unregisterProductAmount() {
-     try {
-     startConversation();
-     compFacade.updateProduct(getProductname(), Integer.parseInt(getAmount()));
-     } catch (Exception e) {
-     handleException(e);
-     }
-     return jsf22Bugfix();
-     }
-     */
     /**
      * Method to change the loggedIn status, both set methods are called in
      * order to ensure that both have been logged out.
@@ -621,45 +579,9 @@ public class ApplicationManager implements Serializable {
     }
 
     /**
-     * Method used to call the compfacade method which, erase a product
-     * completley from the database.
-     *
-     * @return Empty string, if transaction succeeds, otherwise the occured
-     * error.
-     */
-    /*public String unregisterProduct() {
-     try {
-     startConversation();
-     compFacade.unregisterProduct(getProductname());
-     } catch (Exception e) {
-     handleException(e);
-     }
-     return jsf22Bugfix();
-     }
-     */
-    /**
-     * Method to register product from Admin.xhtml interface. Method creates a
-     * new product object and passes it to the compFacade method
-     * registerProduct() to store the new product in the DB.
-     *
-     * @return Empty string, if transaction succeeds, otherwise the occured
-     * error.
-     */
-    /*public String registerProduct() {
-     try {
-     startConversation();
-     Product product1 = new Product(getProductname(), Integer.parseInt(getAmount()));
-     compFacade.registerProduct(product1);
-     } catch (Exception e) {
-     handleException(e);
-     }
-     return jsf22Bugfix();
-     }
-     */
-    /**
-     *
-     * @param personId
-     * @return
+     * Method that updates a Job seekers role (done by the admin)
+     * @param personId the ID of the person who's role you want to change
+     * @return an empty string when the update is successful
      */
     public String updateRole(int personId, String roleId) {
         try {
@@ -677,9 +599,10 @@ public class ApplicationManager implements Serializable {
     }
 
     /**
-     *
-     * @param personId
-     * @return
+     * Method used when an admin does not want to accept an application. it removes the person along with everything 
+     * connected to this person from the system
+     * @param personId Id of the person that is to be removed
+     * @return empty string on success,
      */
     public String rejectApplication(int personId) {
         try {
@@ -714,10 +637,13 @@ public class ApplicationManager implements Serializable {
     }
 
     /**
-     * Here's where the magic is happening!
+     * Method used when logging into the sustem. it starts a conversation aswell as validates the
+     * entered password against the hashed password for the person in the database. it also checks the
+     * banned status.
      *
      * ConvManger is makeing a call to the ejb class ConvFacade which is getting
      * the value from the javaDB through JPA (a presistant unit).
+     * @return empty string on success
      */
     public String login() {
         try {
@@ -730,7 +656,6 @@ public class ApplicationManager implements Serializable {
 
             } else if ((loginuser.getRoleId().equals("1"))
                     && loginuser.getPassword().equals(hash.MakeHash())) {
-                //setLoggedInStatus(true);
                 setAdminStatus(true);
                 account = loginuser;
                 updateApplications();
@@ -748,10 +673,9 @@ public class ApplicationManager implements Serializable {
     }
 
     /**
-     * Here's where the magic is happening!
-     *
-     * ConvManger is makeing a call to the ejb class ConvFacade which is getting
-     * the value from the javaDB through JPA (a presistant unit).
+     * Method that is called when a user registers from the user interface. it sets all the persnoal information 
+     * about the new user and persists it in the database
+     * @return empty string on success
      */
     public String register() {
 
@@ -768,9 +692,9 @@ public class ApplicationManager implements Serializable {
                 int competenceid = random.nextInt(100);
                 int competenceProfileId = random.nextInt(100);
                 int roleId = random.nextInt(100);
-                Roles role1 = new Roles(roleId, 1, "Admin");
-                Roles role2 = new Roles(roleId, 2, "Recruit");
-                Roles role3 = new Roles(roleId, 3, "Job seeker");
+                Roles adminRole = new Roles(roleId, 1, "Admin");
+                Roles recruitRole = new Roles(roleId, 2, "Recruit");
+                Roles jobSeekerRole = new Roles(roleId, 3, "Job seeker");
                 Competence competence;
                 Hash hash;
                 if (getRole().equals("1")) {
@@ -780,10 +704,7 @@ public class ApplicationManager implements Serializable {
                     hash = new Hash(getPass());
                     competence = new Competence(competenceid, getCompetence());
                     compFacade.register(personid, getUsername(), hash.MakeHash(), getRole());
-                    compFacade.registerPersonal(personid, getName(), getSurname(), getSsn(), getEmail(), getRole(), role1, av, competence, cp);
-                    //compFacade.registerAvailability(availableid, personid, getAvailabilityFrom(), getAvailabilityTo());
-                    //compFacade.registerCompetence(competenceid, getCompetence());
-                    //compFacade.registerCompetenceProfile(competenceProfileId, personid, competenceid, Double.parseDouble(getExperience()));
+                    compFacade.registerPersonal(personid, getName(), getSurname(), getSsn(), getEmail(), getRole(), adminRole, av, competence, cp);
 
                 } else if (getRole().equals("2")) {
                     Availability av = new Availability(availableid, personid, getAvailabilityFrom(), getAvailabilityTo());
@@ -791,22 +712,14 @@ public class ApplicationManager implements Serializable {
                     hash = new Hash(getPass());
                     competence = new Competence(competenceid, getCompetence());
                     compFacade.register(personid, getUsername(), hash.MakeHash(), getRole());
-                    compFacade.registerPersonal(personid, getName(), getSurname(), getSsn(), getEmail(), getRole(), role2, av, competence, cp);
-                    //compFacade.registerAvailability(availableid, personid, getAvailabilityFrom(), getAvailabilityTo());
-                    //compFacade.registerCompetence(competenceid, getCompetence());
-                    //compFacade.registerCompetenceProfile(competenceProfileId, personid, competenceid, Double.parseDouble(getExperience()));
-
+                    compFacade.registerPersonal(personid, getName(), getSurname(), getSsn(), getEmail(), getRole(), recruitRole, av, competence, cp);
                 } else if (getRole().equals("3")) {
                     Availability av = new Availability(availableid, personid, getAvailabilityFrom(), getAvailabilityTo());
                     CompetenceProfile cp = new CompetenceProfile(competenceProfileId, personid, competenceid, Double.parseDouble(getExperience()));
                     hash = new Hash(getPass());
                     competence = new Competence(competenceid, getCompetence());
                     compFacade.register(personid, getUsername(), hash.MakeHash(), getRole());
-                    compFacade.registerPersonal(personid, getName(), getSurname(), getSsn(), getEmail(), getRole(), role3, av, competence, cp);
-                    //compFacade.registerAvailability(availableid, personid, getAvailabilityFrom(), getAvailabilityTo());
-                    //compFacade.registerCompetence(competenceid, getCompetence());
-                    //compFacade.registerCompetenceProfile(competenceProfileId, personid, competenceid, Double.parseDouble(getExperience()));
-
+                    compFacade.registerPersonal(personid, getName(), getSurname(), getSsn(), getEmail(), getRole(), jobSeekerRole, av, competence, cp);
                 }
                 setRegistrationSuccessfulStatus(true);
             } else {

@@ -2,7 +2,6 @@ package controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -41,11 +40,8 @@ public class CompanyFacade {
     /* Array lists that is going to be retrived from the database and passed to
      the manager class in the view layer.
      */
-    //private List<ProductDTO> productList = new ArrayList<ProductDTO>();
     private List<AccountDTO> accountList = new ArrayList<AccountDTO>();
-
     private PersonalDTO personalDTO;
-
     private List<PersonalDTO> personalList = new ArrayList<PersonalDTO>();
     private List<AvailabilityDTO> availabilityList = new ArrayList<AvailabilityDTO>();
     private List<CompetenceDTO> competenceList = new ArrayList<CompetenceDTO>();
@@ -62,12 +58,23 @@ public class CompanyFacade {
      * Manager.java.
      * @return AccountDTO object, which is the new account.
      */
+    
     public AccountDTO register(int id, String username, String password, String roleId) {
         Account acc = new Account(username, password, false, id, roleId);
         em.persist(acc);
         return acc;
     }
 
+    /**
+     * Method to register availability.
+     * 
+     * @param id For a specific person.
+     * @param personId A persons id.
+     * @param availabilityFrom The from date of availability.
+     * @param availabilityTo The to date of availability.
+     * @return The AvailabilityDTO object.
+     */
+    
     public AvailabilityDTO registerAvailability(int id, int personId, String availabilityFrom, String availabilityTo) {
         Availability available = new Availability(id, personId, availabilityFrom, availabilityTo);
         em.persist(available);
@@ -75,13 +82,14 @@ public class CompanyFacade {
     }
 
     /**
-     *
-     * @param id
-     * @param name
-     * @param surname
-     * @param ssn
-     * @param email
-     * @return
+     * Method to register an entry in Personal table.
+     * 
+     * @param id Unique identifier for a specific person.
+     * @param name The name of a specific person.
+     * @param surname The surname of a specific person.
+     * @param ssn The social security number for a specific person.
+     * @param email The email for a specific person.
+     * @return The PersonalDTO object.
      */
     public PersonalDTO registerPersonal(int id, String name, String surname, int ssn,
             String email, String roleId, Roles role,
@@ -91,6 +99,14 @@ public class CompanyFacade {
         return pers;
     }
 
+    /**
+     * Method used to update role.
+     * 
+     * @param id The unique identifier for the person which role is going to be modified.
+     * @param roleId The specific role of a person.
+     * @return PersonalDTO object.
+     */
+    
     public PersonalDTO updateRole(int id, String roleId) {
         Personal pers = em.find(Personal.class, id);
         Query query = em.createQuery("UPDATE Personal p SET p.roleId = :roleId WHERE p.id = :id");
@@ -100,36 +116,72 @@ public class CompanyFacade {
         return pers;
     }
 
+    /**
+     * Method used to remove a person from the Account table.
+     * 
+     * @param id Unique identifier.
+     */
+    
     public void unregisterAccount(int id) {
         Query query = em.createQuery("DELETE FROM Account a WHERE a.personalId = :id");
         query.setParameter("id", id);
         query.executeUpdate();
     }
 
+    /**
+     * Method to unregister availability entry in the database.
+     * 
+     * @param id Unique identifier.
+     */
+    
     public void unregisterAvailability(int id) {
         Query query = em.createQuery("DELETE FROM Availability a WHERE a.personal_id = :id");
         query.setParameter("id", id);
         query.executeUpdate();
     }
 
+    /**
+     * Method to unregister competence entry in the database.
+     * 
+     * @param id Unique identifier.
+     */
+    
     public void unregisterCompetence(int id) {
         Query query = em.createQuery("DELETE FROM Competence c WHERE c.id = :id");
         query.setParameter("id", id);
         query.executeUpdate();
     }
 
+    /**
+     * Method to unregister competence profile entry in the database.
+     * 
+     * @param id Unique identifier.
+     */
+    
     public void unregisterCompetenceProfile(int id) {
         Query query = em.createQuery("DELETE FROM CompetenceProfile cp WHERE cp.person_id = :id");
         query.setParameter("id", id);
         query.executeUpdate();
     }
 
+    /**
+     * Method to unregister personal entry in the database.
+     * 
+     * @param id Unique identifier.
+     */
+    
     public void unregisterPersonal(int id) {
         Query query = em.createQuery("DELETE FROM Personal p WHERE p.id = :id");
         query.setParameter("id", id);
         query.executeUpdate();
     }
 
+    /**
+     * Method to unregister role entry in the database.
+     * 
+     * @param id Unique identifier.
+     */
+    
     public void unregisterRole(int id) {
         Query query = em.createQuery("DELETE FROM Roles r WHERE r.uId = :id");
         query.setParameter("id", id);
@@ -137,10 +189,11 @@ public class CompanyFacade {
     }
 
     /**
-     *
-     * @param id
-     * @param name
-     * @return
+     * Method to register competence for a specific person.
+     * 
+     * @param id Unique identifier.
+     * @param name Name of the potential competence.
+     * @return The CompetenceDTO object.
      */
     public CompetenceDTO registerCompetence(int id, String name) {
         Competence comp = new Competence(id, name);
@@ -148,6 +201,16 @@ public class CompanyFacade {
         return comp;
     }
 
+    /**
+     * Method to register competence profile for a specific person.
+     * 
+     * @param competence_profile_id Unique identifier of a specific competence profile.
+     * @param person_id Unique identifier of a specific person.
+     * @param competence_id Unique identifier of a specific competence.
+     * @param experience Years of experience.
+     * @return The CompetenceProfileDTO object.
+     */
+    
     public CompetenceProfileDTO registerCompetenceProfile(int competence_profile_id,
             int person_id, int competence_id, Double experience) {
         CompetenceProfile compProfile
@@ -156,12 +219,14 @@ public class CompanyFacade {
         return compProfile;
     }
 
-    /**
-     *
-     * @param id
-     * @param name
-     * @return
-     */
+   /**
+    * Method to register role for a specific person.
+    * 
+    * @param uid Unique identifier for a specific role.
+    * @param id Identifier of a specific role.
+    * @param name Name of the role.
+    * @return The RolesDTO object.
+    */
     public RolesDTO registerRole(int uid, int id, String name) {
         Roles roles = new Roles(uid, id, name);
         em.persist(roles);
@@ -209,12 +274,25 @@ public class CompanyFacade {
         return accountList;
     }
 
+    /**
+     * Method to retrieve a list of job-seekers.
+     * 
+     * @return A list of PersonalDTO objects.
+     */
+    
     public List<PersonalDTO> getJobSeekerList() {
         Query query = em.createQuery("SELECT p FROM Personal p WHERE p.roleId = '3'");
         personalList = query.getResultList();
         return personalList;
     }
 
+    /**
+     * Method to retrive a list of competence for a specific person.
+     * 
+     * @param id The unique identifier of a specific person.
+     * @return A list of CompetenceDTO objects.
+     */
+    
     public List<CompetenceDTO> getCompetenceList(int id) {
         Query query = em.createQuery("SELECT c FROM Competence c WHERE c.id = :id");
         query.setParameter("id", id);
@@ -222,65 +300,6 @@ public class CompanyFacade {
         return competenceList;
     }
 
-    public List<PersonalDTO> getPersonalList() {
-        Query query = em.createQuery("SELECT p from Personal p");
-        personalList = query.getResultList();
-        return personalList;
-    }
-
-    /**
-     * Method to insert a new product amount into a specific product in the
-     * database.
-     *
-     * This method is used in Admin.xhtml as well as in Customer.xhtml during
-     * purchase.
-     *
-     * @param id The specific product ID.
-     * @param amount The specific amount.
-     * @return Updated product (with a new amount).
-     */
-    /*    public ProductDTO updateProduct(String id, int amount) {
-     Product product = em.find(Product.class, id);
-     product.getAmount();
-     Query query = em.createQuery("UPDATE Product p SET p.amount = :amount WHERE p.id = :id");
-     query.setParameter("amount", product.getAmount() - amount);
-     query.setParameter("id", id);
-     query.executeUpdate();
-     return product;
-     }
-     */
-    /**
-     * Method to return the product list from database.
-     *
-     * @return A list of the available products.
-     */
-    /*  public List<ProductDTO> getProductList() {
-     Query query = em.createQuery("SELECT p FROM Product p");
-     productList = query.getResultList();
-     return productList;
-     }
-     */
-    /**
-     * Registers a new product object and sends to database.
-     *
-     * @param product The specific product entity to be inserted.
-     * @return The newly registered product.
-     */
-    /*public ProductDTO registerProduct(Product product) {
-     em.persist(product);
-     return product;
-     }
-     */
-    /**
-     * Method to unregister (erase) product from the database.
-     *
-     * @param id The primary key to find the specific entity.
-     */
-    public void unregisterProduct(String id) {
-        Query query = em.createQuery("DELETE FROM Product p WHERE p.id = :id");
-        query.setParameter("id", id);
-        query.executeUpdate();
-    }
 
     /**
      * Method to update the banned status of an existing customer (or admin) in
