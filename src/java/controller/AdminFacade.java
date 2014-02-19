@@ -3,11 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -27,6 +29,7 @@ import model.Personal;
 import model.PersonalDTO;
 import model.Roles;
 import model.RolesDTO;
+import observer.Notifier;
 
 /**
  *
@@ -35,11 +38,11 @@ import model.RolesDTO;
 @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 @Stateless
 public class AdminFacade {
-    
-    /* Presistant configurations */
 
+    /* Presistant configurations */
     @PersistenceContext(unitName = "ProjTaskPU")
     private EntityManager em;
+
 
     /* Array lists that is going to be retrived from the database and passed to
      the manager class in the view layer.
@@ -50,6 +53,8 @@ public class AdminFacade {
     private List<AvailabilityDTO> availabilityList = new ArrayList<AvailabilityDTO>();
     private List<CompetenceDTO> competenceList = new ArrayList<CompetenceDTO>();
     private List<CompetenceProfileDTO> competenceProfileList = new ArrayList<CompetenceProfileDTO>();
+
+
 
     /**
      * Method to register a new account in the database.
@@ -234,7 +239,6 @@ public class AdminFacade {
      *
      * @return A list of PersonalDTO objects.
      */
-
     public List<PersonalDTO> getJobSeekerList() {
         Query query = em.createQuery("SELECT p FROM Personal p WHERE p.roleId = '3'");
         personalList = query.getResultList();

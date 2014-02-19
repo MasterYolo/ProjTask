@@ -20,13 +20,21 @@ import model.CompetenceProfileDTO;
 import model.PersonalDTO;
 import model.Roles;
 import crypto.Hash;
+import java.security.NoSuchAlgorithmException;
+import java.util.Date;
+import java.util.Observable;
+import java.util.Observer;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.persistence.EntityNotFoundException;
 import model.CompetenceProfile;
 import model.RolesDTO;
+import observer.Notifier;
 
 /**
- * Changelog: -UpdateApplication on login, updateRole and rejectApplication.
+ * Changelog:
+ * -Added logging on every event.
+ * -UpdateApplication on login, updateRole and rejectApplication.
  * -Added hash sha1 password. The input from the user is encrypted and compared
  * with the one in the db. -Added updated role -Added rejectApplication. - added
  * unique id to Role - changed from hardcoded admin username to use the roleid
@@ -58,7 +66,7 @@ public class ApplicationManager implements Serializable {
     private AdminFacade adminFacade;
     @EJB
     private LoginFacade loginFacade;
-    
+
     private AccountDTO loginuser;
     private AccountDTO account;
 
@@ -92,6 +100,9 @@ public class ApplicationManager implements Serializable {
     private String surname;
     private int ssn;
     private String email;
+
+    Notifier observer = new Notifier();
+    Date date = new Date();
 
     /* Conversation variables */
     private Exception transactionFailure;
@@ -167,38 +178,35 @@ public class ApplicationManager implements Serializable {
 
     /**
      * AND goo!
-     * @return 
+     *
+     * @return
      */
-    
     public List<AccountDTO> getAccountList() {
         return accountList;
     }
 
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
-    
     public List<PersonalDTO> getPersonalList() {
         return personalList;
     }
 
     /**
      * Method to retrieve a list of job seekers.
-     * 
+     *
      * @return A list of PersonalDTO objects.
      */
-    
     public List<PersonalDTO> getJobSeekerList() {
         return jobSeekerList;
     }
 
     /**
      * Method to modifiy a job seeker list.
-     * 
+     *
      * @param jobSeekerList The job seeker list to be modified.
      */
-    
     public void setJobSeekerList(List<PersonalDTO> jobSeekerList) {
         jobSeekerList = adminFacade.getJobSeekerList();
     }
@@ -288,184 +296,180 @@ public class ApplicationManager implements Serializable {
 
     /**
      * Retrieves the roleID.
-     * 
+     *
      * @return roleID.
      */
-    
     public String getRole() {
         return role;
     }
 
     /**
      * Retrieves the name from the XHTML page.
-     * 
+     *
      * @return name.
      */
-    
     public String getName() {
         return name;
     }
 
     /**
      * Retrieves the surname from the XHTML page.
-     * 
+     *
      * @return surname.
      */
-    
     public String getSurname() {
         return surname;
     }
 
     /**
      * Retrieves the social security number (ssn) from XHTML page.
-     * 
+     *
      * @return ssn.
      */
-    
     public int getSsn() {
         return ssn;
     }
 
     /**
      * Returns the Email address of the user
+     *
      * @return Email address
      */
-    
     public String getEmail() {
         return email;
     }
 
     /**
      * Set the role of the user
+     *
      * @param role represents the kind of role the user is getting
      */
-    
     public void setRole(String role) {
         this.role = role;
     }
 
     /**
-     *  Set the user's name
-     * @param name name of the user 
+     * Set the user's name
+     *
+     * @param name name of the user
      */
-    
     public void setName(String name) {
         this.name = name;
     }
 
     /**
-     * Set the user's surname   
+     * Set the user's surname
+     *
      * @param surname surname of the user
      */
-    
     public void setSurname(String surname) {
         this.surname = surname;
     }
 
     /**
      * set the social security number
+     *
      * @param ssn represents a person's social security number
      */
-    
     public void setSsn(int ssn) {
         this.ssn = ssn;
     }
 
     /**
      * Set the email of the user
+     *
      * @param email string that represents the desired email address
      */
-    
     public void setEmail(String email) {
         this.email = email;
     }
-    
+
     /**
      * returns a person's "from" availability
+     *
      * @return the from availability
      */
-
     public String getAvailabilityFrom() {
         return availabilityFrom;
     }
 
     /**
      * set a job seekers availability
+     *
      * @param availabilityFrom the availability entered by the user
      */
-    
     public void setAvailabilityFrom(String availabilityFrom) {
         this.availabilityFrom = availabilityFrom;
     }
 
     /**
      * returns the "to" availability of a user
+     *
      * @return the "to" abailability
      */
-    
     public String getAvailabilityTo() {
         return availabilityTo;
     }
 
     /**
-     * Set the "To" availability of a person    
-     * @param availabilityTo  
+     * Set the "To" availability of a person
+     *
+     * @param availabilityTo
      */
-    
     public void setAvailabilityTo(String availabilityTo) {
         this.availabilityTo = availabilityTo;
     }
 
     /**
      * Retrives the competence of a person.
+     *
      * @return The competence of a person
      */
-    
     public String getCompetence() {
         return competence;
     }
 
     /**
      * Set the competence of a person
-     * @param competence 
+     *
+     * @param competence
      */
-    
     public void setCompetence(String competence) {
         this.competence = competence;
     }
 
     /**
      * Returns the experience of a person
+     *
      * @return the experience
      */
-    
     public String getExperience() {
         return experience;
     }
 
     /**
-     * set the experience of a person 
+     * set the experience of a person
+     *
      * @param experience the experience entered by the user
      */
-    
     public void setExperience(String experience) {
         this.experience = experience;
     }
 
     /**
      * Gets the entire PersonalDTO representing a person
+     *
      * @return the PersonalDTO object
      */
-    
     public PersonalDTO getPersoninfo() {
         return personinfo;
     }
 
     /**
-     * Set the Personal information 
+     * Set the Personal information
+     *
      * @param personinfo the PersonalDTO containing all the information
      */
-    
     public void setPersoninfo(PersonalDTO personinfo) {
         this.personinfo = personinfo;
     }
@@ -542,6 +546,7 @@ public class ApplicationManager implements Serializable {
     public boolean getBannedStatus() {
         return status;
     }
+
     /**
      * Bans a customer from Admin interface
      *
@@ -559,6 +564,7 @@ public class ApplicationManager implements Serializable {
         }
         return jsf22Bugfix();
     }
+
     /**
      * Updates the display of accounts in Admin.xhtml.
      */
@@ -585,15 +591,26 @@ public class ApplicationManager implements Serializable {
 
     /**
      * Method that updates a Job seekers role (done by the admin)
+     *
      * @param personId the ID of the person who's role you want to change
      * @return an empty string when the update is successful
      */
     public String updateRole(int personId, String roleId) {
+        observer.addObserver(new Observer() {
+            public void update(Observable o, Object arg) {
+
+            }
+        });
+
         try {
             startConversation();
             for (PersonalDTO jobseeker : getJobSeekerList()) {
                 if (jobseeker.getId().equals(personId)) {
                     adminFacade.updateRole(personId, roleId);
+                    
+                    observer.setChanged();
+                    Object logged = date.toString() + " " + jobseeker.getName() + " role was updated.";
+                    observer.notifyObservers(logged);
                 }
             }
             updateApplications();
@@ -604,12 +621,20 @@ public class ApplicationManager implements Serializable {
     }
 
     /**
-     * Method used when an admin does not want to accept an application. it removes the person along with everything 
-     * connected to this person from the system
+     * Method used when an admin does not want to accept an application. it
+     * removes the person along with everything connected to this person from
+     * the system
+     *
      * @param personId Id of the person that is to be removed
      * @return empty string on success,
      */
     public String rejectApplication(int personId) {
+        observer.addObserver(new Observer() {
+            public void update(Observable o, Object arg) {
+
+            }
+        });
+
         try {
             startConversation();
             for (PersonalDTO jobseeker : getJobSeekerList()) {
@@ -630,6 +655,9 @@ public class ApplicationManager implements Serializable {
                     for (RolesDTO role : jobseeker.getRole()) {
                         adminFacade.unregisterRole(role.getuId());
                     }
+                    observer.setChanged();
+                    Object logged = date.toString() + " " + jobseeker.getName() + " was removed.";
+                    observer.notifyObservers(logged);
                 }
             }
 
@@ -642,15 +670,22 @@ public class ApplicationManager implements Serializable {
     }
 
     /**
-     * Method used when logging into the sustem. it starts a conversation aswell as validates the
-     * entered password against the hashed password for the person in the database. it also checks the
-     * banned status.
+     * Method used when logging into the sustem. it starts a conversation aswell
+     * as validates the entered password against the hashed password for the
+     * person in the database. it also checks the banned status.
      *
      * ConvManger is makeing a call to the ejb class ConvFacade which is getting
      * the value from the javaDB through JPA (a presistant unit).
+     *
      * @return empty string on success
      */
     public String login() {
+        observer.addObserver(new Observer() {
+            public void update(Observable o, Object arg) {
+
+            }
+        });
+
         try {
             startConversation();
             Hash hash;
@@ -663,27 +698,35 @@ public class ApplicationManager implements Serializable {
                     && loginuser.getPassword().equals(hash.MakeHash())) {
                 setAdminStatus(true);
                 account = loginuser;
+
+                observer.setChanged();
+                Object logged = date.toString() + " " + loginuser.getUsername() + " logged in.";
+                observer.notifyObservers(logged);
+
                 updateApplications();
 
-            } else if (loginuser.getUsername().equals(getUsername())
-                    && loginuser.getPassword().equals(hash.MakeHash())) {
-                setLoggedInStatus(true);
-                account = loginuser;
             }
 
         } catch (Exception e) {
-            FacesContext.getCurrentInstance().addMessage("loginform:Username", 
+            FacesContext.getCurrentInstance().addMessage("loginform:Username",
                     new FacesMessage("Login failed: Wrong username or password"));
         }
         return jsf22Bugfix();
     }
 
     /**
-     * Method that is called when a user registers from the user interface. it sets all the persnoal information 
-     * about the new user and persists it in the database
+     * Method that is called when a user registers from the user interface. it
+     * sets all the persnoal information about the new user and persists it in
+     * the database
+     *
      * @return empty string on success
      */
     public String register() {
+        observer.addObserver(new Observer() {
+            public void update(Observable o, Object arg) {
+
+            }
+        });
 
         try {
             startConversation();
@@ -728,9 +771,16 @@ public class ApplicationManager implements Serializable {
                     adminFacade.registerPersonal(personid, getName(), getSurname(), getSsn(), getEmail(), getRole(), jobSeekerRole, av, competence, cp);
                 }
                 setRegistrationSuccessfulStatus(true);
+                observer.setChanged();
+                Object logged = date.toString() + " " + username + " registered.";
+                observer.notifyObservers(logged);
             } else {
                 setUserAlreadyExistsStatus(true);
                 setRegistrationSuccessfulStatus(false);
+                observer.setChanged();
+                Object logged = date.toString() + " " + username + 
+                        " tried to register a username that already exists.";
+                observer.notifyObservers(logged);
             }
         } catch (Exception e) {
             handleException(e);

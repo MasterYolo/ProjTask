@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -21,18 +21,17 @@ import model.AvailabilityDTO;
 import model.CompetenceDTO;
 import model.CompetenceProfileDTO;
 import model.PersonalDTO;
+import observer.Notifier;
 
 /**
  *
  * @author Micke
  */
-
 @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 @Stateless
 public class LoginFacade {
 
-        /* Presistant configurations */
-
+    /* Presistant configurations */
     @PersistenceContext(unitName = "ProjTaskPU")
     private EntityManager em;
 
@@ -46,8 +45,10 @@ public class LoginFacade {
     private List<CompetenceDTO> competenceList = new ArrayList<CompetenceDTO>();
     private List<CompetenceProfileDTO> competenceProfileList = new ArrayList<CompetenceProfileDTO>();
 
+    Notifier observer = new Notifier();
+    Date date = new Date();
 
-        /**
+    /**
      * Method to check if a user (or admin) is registered in the database.
      *
      * @param username Search value for finding a specific user.
@@ -69,6 +70,7 @@ public class LoginFacade {
      * @return If the username exists, return it. Otherwise throw exception.
      */
     public AccountDTO getAccount(String username) throws EntityNotFoundException {
+        
 
         Account account = em.find(Account.class, username);
         if (account == null) {
