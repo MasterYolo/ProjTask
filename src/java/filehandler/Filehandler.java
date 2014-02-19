@@ -6,9 +6,17 @@ package filehandler;
  */
 import java.io.*;
 
+/**
+ * Class created to handles the write to file.
+ * @author Micke
+ */
 public class Filehandler {
 
-    public void log(Object arg) {
+    /**
+     * Method to used to write log to a txt file.
+     * @param arg The message that is going to be logged.
+     */
+    public void writeLogToFile(Object arg) {
 
         try {
 
