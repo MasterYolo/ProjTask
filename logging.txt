@@ -1,7 +1,4 @@
-Wed Feb 19 13:35:02 CET 2014 admin registered
-Wed Feb 19 14:01:37 CET 2014 admin registered.
-Wed Feb 19 14:01:37 CET 2014 adam registered.
-Wed Feb 19 14:01:37 CET 2014 kalle registered.
-Wed Feb 19 14:01:37 CET 2014 admin logged in.
-Wed Feb 19 14:01:37 CET 2014 adam was removed.
-Wed Feb 19 14:01:37 CET 2014 kalle role was updated.
+Mon Feb 24 14:31:03 CET 2014 admin registered.
+Mon Feb 24 14:31:03 CET 2014 admin logged in.
+Mon Feb 24 14:33:03 CET 2014 admin logged in.
+Mon Feb 24 14:34:21 CET 2014 admin logged in.

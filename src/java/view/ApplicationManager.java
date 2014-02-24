@@ -20,6 +20,8 @@ import model.CompetenceProfileDTO;
 import model.PersonalDTO;
 import model.Roles;
 import crypto.Hash;
+import filehandler.Filehandler;
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.Observable;
@@ -32,14 +34,13 @@ import model.RolesDTO;
 import observer.Notifier;
 
 /**
- * Changelog:
- * -Added logging on every event.
- * -UpdateApplication on login, updateRole and rejectApplication.
- * -Added hash sha1 password. The input from the user is encrypted and compared
- * with the one in the db. -Added updated role -Added rejectApplication. - added
- * unique id to Role - changed from hardcoded admin username to use the roleid
- * instead - added hashed sha1 password to the model. (Added crypto layer).
- * -added roleid in register (Account)
+ * Changelog: -Added logging on every event. -UpdateApplication on login,
+ * updateRole and rejectApplication. -Added hash sha1 password. The input from
+ * the user is encrypted and compared with the one in the db. -Added updated
+ * role -Added rejectApplication. - added unique id to Role - changed from
+ * hardcoded admin username to use the roleid instead - added hashed sha1
+ * password to the model. (Added crypto layer). -added roleid in register
+ * (Account)
  *
  * -submitApplication() removed. -register() now registers inputs from the user.
  * -register() now registers personal,account,availablity,competence and
@@ -548,6 +549,20 @@ public class ApplicationManager implements Serializable {
     }
 
     /**
+     *
+     * @return
+     */
+    public String printLogFile() {
+        try {
+            Filehandler fh = new Filehandler();
+            return (fh.readFromFile());
+        } catch (Exception e) {
+            handleException(e);
+        }
+        return jsf22Bugfix();
+    }
+
+    /**
      * Bans a customer from Admin interface
      *
      * Makes a call to the compFacade to update the account banned status of a
@@ -607,7 +622,7 @@ public class ApplicationManager implements Serializable {
             for (PersonalDTO jobseeker : getJobSeekerList()) {
                 if (jobseeker.getId().equals(personId)) {
                     adminFacade.updateRole(personId, roleId);
-                    
+
                     observer.setChanged();
                     Object logged = date.toString() + " " + jobseeker.getName() + " role was updated.";
                     observer.notifyObservers(logged);
@@ -778,8 +793,8 @@ public class ApplicationManager implements Serializable {
                 setUserAlreadyExistsStatus(true);
                 setRegistrationSuccessfulStatus(false);
                 observer.setChanged();
-                Object logged = date.toString() + " " + username + 
-                        " tried to register a username that already exists.";
+                Object logged = date.toString() + " " + username
+                        + " tried to register a username that already exists.";
                 observer.notifyObservers(logged);
             }
         } catch (Exception e) {

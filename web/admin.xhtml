@@ -53,7 +53,8 @@
                 <br />
                 <hr />
             </c:forEach>
-            <h:commandButton value="Refresh" action="#{manager.updateApplications()}"/>
+            <h3>EventLog</h3>
+            <h:inputTextarea value="#{manager.printLogFile()}" style="width:500px;height: 500px;"/>
         </h:form>
     </h:body>
 </html>

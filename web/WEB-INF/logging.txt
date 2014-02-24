@@ -1,0 +1,21 @@
+Wed Feb 19 13:35:02 CET 2014 admin registered
+Wed Feb 19 14:01:37 CET 2014 admin registered.
+Wed Feb 19 14:01:37 CET 2014 adam registered.
+Wed Feb 19 14:01:37 CET 2014 kalle registered.
+Wed Feb 19 14:01:37 CET 2014 admin logged in.
+Wed Feb 19 14:01:37 CET 2014 adam was removed.
+Wed Feb 19 14:01:37 CET 2014 kalle role was updated.
+Mon Feb 24 11:16:14 CET 2014 admin registered.
+Mon Feb 24 11:16:14 CET 2014 admin logged in.
+Mon Feb 24 11:20:46 CET 2014 admin registered.
+Mon Feb 24 11:20:46 CET 2014 admin logged in.
+Mon Feb 24 11:22:38 CET 2014 admin tried to register a username that already exists.
+Mon Feb 24 11:22:38 CET 2014 admin logged in.
+Mon Feb 24 11:42:18 CET 2014 admin registered.
+Mon Feb 24 11:42:18 CET 2014 admin logged in.
+Mon Feb 24 11:46:12 CET 2014 admin registered.
+Mon Feb 24 11:46:12 CET 2014 admin logged in.
+Mon Feb 24 11:53:35 CET 2014 admin registered.
+Mon Feb 24 11:53:35 CET 2014 admin logged in.
+Mon Feb 24 11:58:31 CET 2014 admin registered.
+Mon Feb 24 11:58:31 CET 2014 admin logged in.
