@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Such site. Very design. Wow!</title>
         <link rel="shortcut icon" href="http://www.iconj.com/ico/8/r/8r7hi19084.ico" type="image/x-icon" />
@@ -20,72 +21,80 @@
                     }</script>
             </h:outputLabel>
 
-            <h3>Register you Scum!</h3>
-            <p>
-                <h:outputLabel for="name" value="Name: "/>
-                <br/>
-                <h:inputText id="name" value="#{manager.name}" required="true" />
-                <h:message for="name" style="color:red"/>
+            <p:panel header="Register!">
+                <p:messages />
+                <h:outputLabel for="firstname" value="Name: "/>
+                <br />
+                <p:inputText id="firstname" value="#{manager.name}" required="true" requiredMessage="Name is required" label="Firstname">  
+                    <f:validateLength minimum="2" />  
+                </p:inputText>
                 <br/>
                 <h:outputLabel for="surname" value="Surname: "/>
-                <br/>
-                <h:inputText  id="surname" value="#{manager.surname}" required="true"/>
-                <h:message for="surname" style="color:red"/>
+                <br />
+                <p:inputText id="surname" value="#{manager.surname}" required="true" requiredMessage="Surename is required" label="Surename">  
+                    <f:validateLength minimum="2" />  
+                </p:inputText>
                 <br/>
                 <h:outputLabel for="ssn" value="Ssn: "/>
                 <br/>
-                <h:inputText id="ssn" value="#{manager.ssn}" required="true" maxlength="10"/>
-                <h:message for="ssn" style="color:red"/>
+                <p:inputText id="ssn" value="#{manager.ssn}" required="true" requiredMessage="Social security number is required" label="Ssn">  
+                    <f:validateLength minimum="2" />  
+                </p:inputText>
                 <br/>
                 <h:outputLabel for="email" value="Email: "/>
                 <br/>
-                <h:inputText  id="email" value="#{manager.email}" required="true" />
-                <h:message for="email" style="color:red"/>
+                <p:inputText id="email" value="#{manager.email}" required="true" requiredMessage="Email is required" label="Email">  
+                    <f:validateLength minimum="2" />  
+                </p:inputText>
                 <br/>
-                <h:outputLabel for="Username" value="Username: "/>
+
+                <h:outputLabel for="username" value="Username: "/>
                 <br/>
-                <h:inputText id="Username" value="#{manager.username}" required="true"/>
-                <h:message for="Username" style="color:red"/>
+                <p:inputText id="username" value="#{manager.username}" required="true" requiredMessage="Username is required" label="Username">  
+                    <f:validateLength minimum="2" />  
+                </p:inputText>
                 <br/>
                 <h:outputLabel for="Password" value="Password: "/>
                 <br/>
-                <h:inputSecret  id="Password" value="#{manager.pass}" required="true"  />
+                <p:password id="feedback" value="#{manager.pass}" feedback="true" required="true" requiredMessage="Password is required" />
                 <h:message for="Password" style="color:red"/>
                 <br/>
                 <hr/>
                 <h3>Please fill in the application below!</h3>
                 <h:outputLabel for="availability-from" value="Availability from: "/>
                 <br/>
-                <h:inputText id="availability-from" value="#{manager.availabilityFrom}" required="true"/>
-                <h:message for="availability-from" style="color:red"/>
+                <p:calendar value="#{manager.availabilityFrom}" pattern="MM/dd/yyyy" required="true" requiredMessage="Availability from is required" /> 
                 <br/>
                 <h:outputLabel for="availability-to" value="Availability to: "/>
                 <br/>
-                <h:inputText id="availability-to" value="#{manager.availabilityTo}" required="true"/>
-                <h:message for="availability-to" style="color:red"/>
+                <p:calendar value="#{manager.availabilityTo}" pattern="MM/dd/yyyy" required="true" requiredMessage="Availability from is required" />
                 <br/>
-                <h:outputLabel for="Competence" value="Competence: "/>
+                <h:outputLabel for="competence" value="Competence: "/>
                 <br/>
-                <h:inputText id="Competence" value="#{manager.competence}" required="true"/>
-                <h:message for="Competence" style="color:red"/>
+                <p:inputText id="competence" value="#{manager.competence}" required="true" requiredMessage="Competence is required" label="Competence">  
+                    <f:validateLength minimum="2" />  
+                </p:inputText>
                 <br/>
-                <h:outputLabel for="Experience" value="Experience: "/>
-                <br/>
-                <h:inputText id="Experience" value="#{manager.experience}" required="true"/>
-                <h:message for="Experience" style="color:red"/>
+                <h:outputLabel for="experience" value="Years of Experience:" />
+                <br/>                      
+                <p:inputText id="experience" value="#{manager.experience}" label="Experience">  
+                    <f:validateDoubleRange minimum="0" />  
+                </p:inputText>  
                 <br/>
                 <h:outputLabel for="Role" value="Role: "/>
-                <h:selectOneMenu id ="Role" value="#{manager.role}">
+                <p:selectOneMenu id ="Role" value="#{manager.role}">
                     <f:selectItem itemValue="3" itemLabel="Job seeker" />
                     <f:selectItem itemValue="2" itemLabel="Recruiter" />
                     <f:selectItem itemValue="1" itemLabel="Admin" />
-                </h:selectOneMenu>
+                </p:selectOneMenu>
                 <br/>
-            </p>
-            <p>
-                <h:commandButton value="Submit your application" action="#{manager.register()}" />
-            </p>
-            <hr/>
+
+                <p>
+                    <h:commandButton value="Submit your application" action="#{manager.register()}" />
+                </p>
+                <hr/>
+            </p:panel>
+
         </h:form>
 
     </h:body>

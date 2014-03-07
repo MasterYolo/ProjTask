@@ -6,6 +6,8 @@
 
 package model;
 
+import java.util.Date;
+
 /**
  *
  * @author Micke
@@ -14,8 +16,8 @@ public interface AvailabilityDTO {
 
     Integer getId();
     
-    String getAvailabilityFrom();
+    Date getAvailabilityFrom();
     
-    String getAvailabilityTo();
+    Date getAvailabilityTo();
     
 }

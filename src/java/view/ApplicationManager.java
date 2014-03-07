@@ -32,6 +32,9 @@ import javax.persistence.EntityNotFoundException;
 import model.CompetenceProfile;
 import model.RolesDTO;
 import observer.Notifier;
+import java.util.Date;
+import javax.validation.constraints.Future;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * Changelog: -Added logging on every event. -UpdateApplication on login,
@@ -90,8 +93,10 @@ public class ApplicationManager implements Serializable {
     private boolean status;
 
     /* Application variables */
-    private String availabilityFrom;
-    private String availabilityTo;
+    @Future
+    private Date availabilityFrom;
+    @Future
+    private Date availabilityTo;
     private String competence;
     private String experience;
     private String role;
@@ -390,7 +395,7 @@ public class ApplicationManager implements Serializable {
      *
      * @return the from availability
      */
-    public String getAvailabilityFrom() {
+    public Date getAvailabilityFrom() {
         return availabilityFrom;
     }
 
@@ -399,7 +404,7 @@ public class ApplicationManager implements Serializable {
      *
      * @param availabilityFrom the availability entered by the user
      */
-    public void setAvailabilityFrom(String availabilityFrom) {
+    public void setAvailabilityFrom(Date availabilityFrom) {
         this.availabilityFrom = availabilityFrom;
     }
 
@@ -408,7 +413,7 @@ public class ApplicationManager implements Serializable {
      *
      * @return the "to" abailability
      */
-    public String getAvailabilityTo() {
+    public Date getAvailabilityTo() {
         return availabilityTo;
     }
 
@@ -417,7 +422,7 @@ public class ApplicationManager implements Serializable {
      *
      * @param availabilityTo
      */
-    public void setAvailabilityTo(String availabilityTo) {
+    public void setAvailabilityTo(Date availabilityTo) {
         this.availabilityTo = availabilityTo;
     }
 

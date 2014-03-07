@@ -47,12 +47,12 @@ public class AdminFacade {
     /* Array lists that is going to be retrived from the database and passed to
      the manager class in the view layer.
      */
-    private List<AccountDTO> accountList = new ArrayList<AccountDTO>();
+    private final List<AccountDTO> accountList = new ArrayList<>();
     private PersonalDTO personalDTO;
-    private List<PersonalDTO> personalList = new ArrayList<PersonalDTO>();
-    private List<AvailabilityDTO> availabilityList = new ArrayList<AvailabilityDTO>();
-    private List<CompetenceDTO> competenceList = new ArrayList<CompetenceDTO>();
-    private List<CompetenceProfileDTO> competenceProfileList = new ArrayList<CompetenceProfileDTO>();
+    private List<PersonalDTO> personalList = new ArrayList<>();
+    private final List<AvailabilityDTO> availabilityList = new ArrayList<>();
+    private List<CompetenceDTO> competenceList = new ArrayList<>();
+    private final List<CompetenceProfileDTO> competenceProfileList = new ArrayList<>();
 
 
 
@@ -82,7 +82,7 @@ public class AdminFacade {
      * @param availabilityTo The to date of availability.
      * @return The AvailabilityDTO object.
      */
-    public AvailabilityDTO registerAvailability(int id, int personId, String availabilityFrom, String availabilityTo) {
+    public AvailabilityDTO registerAvailability(int id, int personId, Date availabilityFrom, Date availabilityTo) {
         Availability available = new Availability(id, personId, availabilityFrom, availabilityTo);
         em.persist(available);
         return available;

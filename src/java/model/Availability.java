@@ -1,10 +1,12 @@
 package model;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -18,13 +20,15 @@ public class Availability implements Serializable, AvailabilityDTO {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private Integer personal_id;
-    private String availabilityFrom;
-    private String availabilityTo;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date availabilityFrom;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date availabilityTo;
 
     public Availability() {
     }
 
-    public Availability(int id, int personal_id, String availabilityFrom, String availabilityTo) {
+    public Availability(int id, int personal_id, Date availabilityFrom, Date availabilityTo) {
         this.id = id;
         this.personal_id = personal_id;
         this.availabilityFrom = availabilityFrom;
@@ -35,11 +39,11 @@ public class Availability implements Serializable, AvailabilityDTO {
         return id;
     }
 
-    public String getAvailabilityFrom() {
+    public Date getAvailabilityFrom() {
         return availabilityFrom;
     }
 
-    public String getAvailabilityTo() {
+    public Date getAvailabilityTo() {
         return availabilityTo;
     }
 
@@ -55,11 +59,11 @@ public class Availability implements Serializable, AvailabilityDTO {
         this.id = id;
     }
 
-    public void setAvailabiltyFrom(String availabityFrom) {
+    public void setAvailabiltyFrom(Date availabityFrom) {
         this.availabilityFrom = availabityFrom;
     }
 
-    public void setAvailabilityTo(String availabilityTo) {
+    public void setAvailabilityTo(Date availabilityTo) {
         this.availabilityTo = availabilityTo;
     }
 }
