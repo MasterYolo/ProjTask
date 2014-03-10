@@ -5,6 +5,7 @@
  */
 package controller;
 
+import ExceptionHandler.RegisterException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -54,8 +55,6 @@ public class AdminFacade {
     private List<CompetenceDTO> competenceList = new ArrayList<>();
     private final List<CompetenceProfileDTO> competenceProfileList = new ArrayList<>();
 
-
-
     /**
      * Method to register a new account in the database.
      *
@@ -67,9 +66,14 @@ public class AdminFacade {
      * Manager.java.
      * @return AccountDTO object, which is the new account.
      */
-    public AccountDTO register(int id, String username, String password, String roleId) {
-        Account acc = new Account(username, password, false, id, roleId);
-        em.persist(acc);
+    public AccountDTO register(int id, String username, String password, String roleId) throws RegisterException {
+        Account acc;
+        try {
+            acc = new Account(username, password, false, id, roleId);
+            em.persist(acc);
+        } catch (Exception e) {
+            throw new RegisterException("Something went wrong in the register process", e);
+        }
         return acc;
     }
 
@@ -82,9 +86,14 @@ public class AdminFacade {
      * @param availabilityTo The to date of availability.
      * @return The AvailabilityDTO object.
      */
-    public AvailabilityDTO registerAvailability(int id, int personId, Date availabilityFrom, Date availabilityTo) {
-        Availability available = new Availability(id, personId, availabilityFrom, availabilityTo);
-        em.persist(available);
+    public AvailabilityDTO registerAvailability(int id, int personId, Date availabilityFrom, Date availabilityTo) throws RegisterException {
+        Availability available;
+        try {
+            available = new Availability(id, personId, availabilityFrom, availabilityTo);
+            em.persist(available);
+        } catch (Exception e) {
+            throw new RegisterException("Something went wrong in the register process", e);
+        }
         return available;
     }
 
@@ -100,9 +109,14 @@ public class AdminFacade {
      */
     public PersonalDTO registerPersonal(int id, String name, String surname, int ssn,
             String email, String roleId, Roles role,
-            Availability av, Competence competence, CompetenceProfile competenceProfile) {
-        Personal pers = new Personal(id, name, surname, ssn, email, roleId, role, av, competence, competenceProfile);
-        em.persist(pers);
+            Availability av, Competence competence, CompetenceProfile competenceProfile) throws RegisterException {
+        Personal pers;
+        try {
+            pers = new Personal(id, name, surname, ssn, email, roleId, role, av, competence, competenceProfile);
+            em.persist(pers);
+        } catch (Exception e) {
+            throw new RegisterException("Something went wrong in the register process", e);
+        }
         return pers;
     }
 
@@ -196,9 +210,14 @@ public class AdminFacade {
      * @param name Name of the potential competence.
      * @return The CompetenceDTO object.
      */
-    public CompetenceDTO registerCompetence(int id, String name) {
-        Competence comp = new Competence(id, name);
-        em.persist(comp);
+    public CompetenceDTO registerCompetence(int id, String name) throws RegisterException {
+        Competence comp;
+        try {
+            comp = new Competence(id, name);
+            em.persist(comp);
+        } catch (Exception e) {
+            throw new RegisterException("Something went wrong in the register process", e);
+        }
         return comp;
     }
 
@@ -213,10 +232,14 @@ public class AdminFacade {
      * @return The CompetenceProfileDTO object.
      */
     public CompetenceProfileDTO registerCompetenceProfile(int competence_profile_id,
-            int person_id, int competence_id, Double experience) {
-        CompetenceProfile compProfile
-                = new CompetenceProfile(competence_profile_id, person_id, competence_id, experience);
-        em.persist(compProfile);
+            int person_id, int competence_id, Double experience) throws RegisterException {
+        CompetenceProfile compProfile;
+        try {
+            compProfile = new CompetenceProfile(competence_profile_id, person_id, competence_id, experience);
+            em.persist(compProfile);
+        } catch (Exception e) {
+            throw new RegisterException("Something went wrong in the register process", e);
+        }
         return compProfile;
     }
 
@@ -228,9 +251,14 @@ public class AdminFacade {
      * @param name Name of the role.
      * @return The RolesDTO object.
      */
-    public RolesDTO registerRole(int uid, int id, String name) {
-        Roles roles = new Roles(uid, id, name);
-        em.persist(roles);
+    public RolesDTO registerRole(int uid, int id, String name) throws RegisterException {
+        Roles roles;
+        try {
+            roles = new Roles(uid, id, name);
+            em.persist(roles);
+        } catch (Exception e) {
+            throw new RegisterException("Something went wrong in the register process", e);
+        }
         return roles;
     }
 

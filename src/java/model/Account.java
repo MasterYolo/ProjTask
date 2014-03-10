@@ -5,6 +5,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * 
@@ -22,11 +25,15 @@ public class Account implements Serializable, AccountDTO {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     /* Account specific variables */
+    @NotBlank
     private String username;
-
+    
     private int personalId;
+    
     private String roleId;
+    @NotBlank
     private String password;
+    
     private boolean banned;
    
 

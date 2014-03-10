@@ -5,6 +5,7 @@
  */
 package controller;
 
+import ExceptionHandler.LoginException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -69,14 +70,18 @@ public class LoginFacade {
      * primary key.
      * @return If the username exists, return it. Otherwise throw exception.
      */
-    public AccountDTO getAccount(String username) throws EntityNotFoundException {
-        
+    public AccountDTO getAccount(String username) throws LoginException {
 
-        Account account = em.find(Account.class, username);
-        if (account == null) {
-            throw new EntityNotFoundException("No account with that name: " + username);
+        Account account;
+
+        try {
+            account = em.find(Account.class, username);
+        } catch (Exception e) {
+            throw new LoginException("Something went wrong when you logged in.", e);
         }
+
         return account;
+
     }
 
     /**

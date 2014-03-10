@@ -1,5 +1,7 @@
 package view;
 
+import ExceptionHandler.LoginException;
+import ExceptionHandler.RegisterException;
 import controller.AdminFacade;
 import controller.LoginFacade;
 import java.io.Serializable;
@@ -35,6 +37,7 @@ import observer.Notifier;
 import java.util.Date;
 import javax.validation.constraints.Future;
 import org.hibernate.validator.constraints.NotEmpty;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Changelog: -Added logging on every event. -UpdateApplication on login,
@@ -698,8 +701,11 @@ public class ApplicationManager implements Serializable {
      * the value from the javaDB through JPA (a presistant unit).
      *
      * @return empty string on success
+     * @throws java.lang.Exception
      */
-    public String login() {
+    public String login() throws LoginException, IOException {
+        HttpServletResponse response;
+
         observer.addObserver(new Observer() {
             public void update(Observable o, Object arg) {
 
@@ -711,6 +717,12 @@ public class ApplicationManager implements Serializable {
             Hash hash;
             loginuser = loginFacade.getAccount(getUsername());
             hash = new Hash(getPass());
+
+            if (loginuser == null) {
+
+                FacesContext.getCurrentInstance().addMessage("loginform:Username",
+                        new FacesMessage("Login failed: Wrong username or password"));
+            }
             if (loginuser.getStatus() == true) {
                 setBannedStatus(true);
 
@@ -725,11 +737,17 @@ public class ApplicationManager implements Serializable {
 
                 updateApplications();
 
+            } else {
+                FacesContext.getCurrentInstance().addMessage("loginform:Username",
+                        new FacesMessage("Login failed: Wrong username or password"));
             }
 
         } catch (Exception e) {
-            FacesContext.getCurrentInstance().addMessage("loginform:Username",
-                    new FacesMessage("Login failed: Wrong username or password"));
+            observer.setChanged();
+            Object logged = date.toString() + " " + loginuser.getUsername() + " Error occoured";
+            observer.notifyObservers(logged);
+            FacesContext.getCurrentInstance().getExternalContext().
+                    redirect("/ProjTask/faces/loginerror.xhtml");
         }
         return jsf22Bugfix();
     }
@@ -741,7 +759,7 @@ public class ApplicationManager implements Serializable {
      *
      * @return empty string on success
      */
-    public String register() {
+    public String register() throws IOException {
         observer.addObserver(new Observer() {
             public void update(Observable o, Object arg) {
 
@@ -782,6 +800,7 @@ public class ApplicationManager implements Serializable {
                     competence = new Competence(competenceid, getCompetence());
                     adminFacade.register(personid, getUsername(), hash.MakeHash(), getRole());
                     adminFacade.registerPersonal(personid, getName(), getSurname(), getSsn(), getEmail(), getRole(), recruitRole, av, competence, cp);
+
                 } else if (getRole().equals("3")) {
                     Availability av = new Availability(availableid, personid, getAvailabilityFrom(), getAvailabilityTo());
                     CompetenceProfile cp = new CompetenceProfile(competenceProfileId, personid, competenceid, Double.parseDouble(getExperience()));
@@ -803,7 +822,11 @@ public class ApplicationManager implements Serializable {
                 observer.notifyObservers(logged);
             }
         } catch (Exception e) {
-            handleException(e);
+            FacesContext.getCurrentInstance().getExternalContext().
+                    redirect("/ProjTask/faces/registererror.xhtml");
+        } catch (RegisterException re) {
+            FacesContext.getCurrentInstance().getExternalContext().
+                    redirect("/ProjTask/faces/registererror.xhtml");
         }
         return jsf22Bugfix();
     }
