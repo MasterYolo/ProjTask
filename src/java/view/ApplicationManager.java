@@ -744,7 +744,7 @@ public class ApplicationManager implements Serializable {
 
         } catch (Exception e) {
             observer.setChanged();
-            Object logged = date.toString() + " " + loginuser.getUsername() + " Error occoured";
+            Object logged = date.toString() + " " + loginuser.getUsername() + " Failed login attempted";
             observer.notifyObservers(logged);
             FacesContext.getCurrentInstance().getExternalContext().
                     redirect("/ProjTask/faces/loginerror.xhtml");
@@ -824,9 +824,14 @@ public class ApplicationManager implements Serializable {
         } catch (Exception e) {
             FacesContext.getCurrentInstance().getExternalContext().
                     redirect("/ProjTask/faces/registererror.xhtml");
+            Object logged = date.toString() + " " + username
+                    + " An database error has occoured.";
+            observer.notifyObservers(logged);
         } catch (RegisterException re) {
             FacesContext.getCurrentInstance().getExternalContext().
                     redirect("/ProjTask/faces/registererror.xhtml");
+            Object logged = date.toString() + " " + username
+                    + " An database error has occoured.";
         }
         return jsf22Bugfix();
     }
