@@ -2,13 +2,16 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:c="http://java.sun.com/jsp/jstl/core">
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
-        <title>Such errorpage. Very fail. Wow!</title>
-        <link rel="shortcut icon" href="http://www.iconj.com/ico/8/r/8r7hi19084.ico" type="image/x-icon" />
+        <ui:include src="header.xhtml" />
     </h:head>
     <h:body>
         <h1>Something went wrong in the register process! ┻━┻ ︵ヽ(`Д´)ﾉ︵﻿ ┻━┻</h1>
         <a href="startpage.xhtml">Back to main page</a>
+        <footer>
+            <ui:include src="footer.xhtml" />
+        </footer>
     </h:body>
 </html>

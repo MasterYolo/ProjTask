@@ -1,19 +1,23 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
-        <title>Such site. Very design. Wow!</title>
-        <link rel="shortcut icon" href="http://www.iconj.com/ico/8/r/8r7hi19084.ico" type="image/x-icon" />
+        <ui:include src="header.xhtml" />
     </h:head>
     <h:body>
         <h3>Register or Login to create or edit your application! You scum,   ┻━┻ ︵ヽ(`Д´)ﾉ︵﻿ ┻━┻</h3>
         <br/>
         <h:form>
             <center>
-                <h:commandButton value="Login" action="login.xhtml"/> 
-                <h:commandButton value="Register" action ="register.xhtml"/>
+                <p:commandButton value="Login" action="login.xhtml"/> 
+                <p:commandButton value="Register" action ="register.xhtml"/>
             </center>
         </h:form>
+        <footer>
+            <ui:include src="footer.xhtml" />
+        </footer>
     </h:body>
 </html>

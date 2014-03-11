@@ -5,6 +5,7 @@
  */
 package controller;
 
+import ExceptionHandler.ApplicationException;
 import ExceptionHandler.RegisterException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -128,12 +129,17 @@ public class AdminFacade {
      * @param roleId The specific role of a person.
      * @return PersonalDTO object.
      */
-    public PersonalDTO updateRole(int id, String roleId) {
-        Personal pers = em.find(Personal.class, id);
+    public PersonalDTO updateRole(int id, String roleId) throws ApplicationException{
+        Personal pers;
+        try{
+        pers = em.find(Personal.class, id);
         Query query = em.createQuery("UPDATE Personal p SET p.roleId = :roleId WHERE p.id = :id");
         query.setParameter("id", id);
         query.setParameter("roleId", roleId);
         query.executeUpdate();
+        }catch (Exception e){
+            throw new ApplicationException("Something went wrong when trying to alter an application", e);
+        }
         return pers;
     }
 
@@ -142,10 +148,15 @@ public class AdminFacade {
      *
      * @param id Unique identifier.
      */
-    public void unregisterAccount(int id) {
-        Query query = em.createQuery("DELETE FROM Account a WHERE a.personalId = :id");
-        query.setParameter("id", id);
-        query.executeUpdate();
+    public void unregisterAccount(int id) throws ApplicationException{
+        try{
+            Query query = em.createQuery("DELETE FROM Account a WHERE a.personalId = :id");
+            query.setParameter("id", id);
+            query.executeUpdate();
+        }catch(Exception e){
+            throw new ApplicationException("Something went wrong when trying to alter an application", e);
+        }
+            
     }
 
     /**
@@ -153,10 +164,15 @@ public class AdminFacade {
      *
      * @param id Unique identifier.
      */
-    public void unregisterAvailability(int id) {
-        Query query = em.createQuery("DELETE FROM Availability a WHERE a.personal_id = :id");
-        query.setParameter("id", id);
-        query.executeUpdate();
+    public void unregisterAvailability(int id) throws ApplicationException{
+        try{
+            Query query = em.createQuery("DELETE FROM Availability a WHERE a.personal_id = :id");
+            query.setParameter("id", id);
+            query.executeUpdate();
+        }catch(Exception e){
+            throw new ApplicationException("Something went wrong when trying to alter an application", e);
+        }
+
     }
 
     /**
@@ -164,10 +180,15 @@ public class AdminFacade {
      *
      * @param id Unique identifier.
      */
-    public void unregisterCompetence(int id) {
-        Query query = em.createQuery("DELETE FROM Competence c WHERE c.id = :id");
-        query.setParameter("id", id);
-        query.executeUpdate();
+    public void unregisterCompetence(int id)throws ApplicationException {
+        try{
+            Query query = em.createQuery("DELETE FROM Competence c WHERE c.id = :id");
+            query.setParameter("id", id);
+            query.executeUpdate();
+        }catch(Exception e){
+            throw new ApplicationException("Something went wrong when trying to alter an application", e);
+        }
+
     }
 
     /**
@@ -175,10 +196,15 @@ public class AdminFacade {
      *
      * @param id Unique identifier.
      */
-    public void unregisterCompetenceProfile(int id) {
-        Query query = em.createQuery("DELETE FROM CompetenceProfile cp WHERE cp.person_id = :id");
-        query.setParameter("id", id);
-        query.executeUpdate();
+    public void unregisterCompetenceProfile(int id) throws ApplicationException{
+        try{
+            Query query = em.createQuery("DELETE FROM CompetenceProfile cp WHERE cp.person_id = :id");
+            query.setParameter("id", id);
+            query.executeUpdate();
+        }catch(Exception e){
+            throw new ApplicationException("Something went wrong when trying to alter an application", e);
+        }        
+
     }
 
     /**
@@ -186,21 +212,31 @@ public class AdminFacade {
      *
      * @param id Unique identifier.
      */
-    public void unregisterPersonal(int id) {
-        Query query = em.createQuery("DELETE FROM Personal p WHERE p.id = :id");
-        query.setParameter("id", id);
-        query.executeUpdate();
-    }
+    public void unregisterPersonal(int id)throws ApplicationException {
+        try{
+            Query query = em.createQuery("DELETE FROM Personal p WHERE p.id = :id");
+            query.setParameter("id", id);
+            query.executeUpdate();
+    
+        }catch(Exception e){
+            throw new ApplicationException("Something went wrong when trying to alter an application", e);
+        }        
+        }
 
     /**
      * Method to unregister role entry in the database.
      *
      * @param id Unique identifier.
      */
-    public void unregisterRole(int id) {
-        Query query = em.createQuery("DELETE FROM Roles r WHERE r.uId = :id");
-        query.setParameter("id", id);
-        query.executeUpdate();
+    public void unregisterRole(int id)throws ApplicationException {
+        try{
+            Query query = em.createQuery("DELETE FROM Roles r WHERE r.uId = :id");
+            query.setParameter("id", id);
+            query.executeUpdate();
+        }catch(Exception e){
+            throw new ApplicationException("Something went wrong when trying to alter an application", e);
+        }        
+
     }
 
     /**

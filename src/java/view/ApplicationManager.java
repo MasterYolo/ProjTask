@@ -1,5 +1,6 @@
 package view;
 
+import ExceptionHandler.ApplicationException;
 import ExceptionHandler.LoginException;
 import ExceptionHandler.RegisterException;
 import controller.AdminFacade;
@@ -618,7 +619,7 @@ public class ApplicationManager implements Serializable {
      * @param personId the ID of the person who's role you want to change
      * @return an empty string when the update is successful
      */
-    public String updateRole(int personId, String roleId) {
+    public String updateRole(int personId, String roleId) throws ApplicationException, IOException {
         observer.addObserver(new Observer() {
             public void update(Observable o, Object arg) {
 
@@ -638,7 +639,13 @@ public class ApplicationManager implements Serializable {
             }
             updateApplications();
         } catch (Exception e) {
-            handleException(e);
+            FacesContext.getCurrentInstance().getExternalContext().
+                    redirect("/ProjTask/faces/applicationerror.xhtml");
+        }
+        catch(ApplicationException ae)
+        {
+            FacesContext.getCurrentInstance().getExternalContext().
+                    redirect("/ProjTask/faces/applicationerror.xhtml");
         }
         return jsf22Bugfix();
     }
@@ -651,7 +658,7 @@ public class ApplicationManager implements Serializable {
      * @param personId Id of the person that is to be removed
      * @return empty string on success,
      */
-    public String rejectApplication(int personId) {
+    public String rejectApplication(int personId) throws ApplicationException, IOException {
         observer.addObserver(new Observer() {
             public void update(Observable o, Object arg) {
 
@@ -686,7 +693,8 @@ public class ApplicationManager implements Serializable {
 
             updateApplications();
         } catch (Exception e) {
-            handleException(e);
+            FacesContext.getCurrentInstance().getExternalContext().
+                    redirect("/ProjTask/faces/applicationerror.xhtml");
         }
 
         return jsf22Bugfix();
@@ -704,7 +712,6 @@ public class ApplicationManager implements Serializable {
      * @throws java.lang.Exception
      */
     public String login() throws LoginException, IOException {
-        HttpServletResponse response;
 
         observer.addObserver(new Observer() {
             public void update(Observable o, Object arg) {
@@ -717,7 +724,6 @@ public class ApplicationManager implements Serializable {
             Hash hash;
             loginuser = loginFacade.getAccount(getUsername());
             hash = new Hash(getPass());
-
             if (loginuser == null) {
 
                 FacesContext.getCurrentInstance().addMessage("loginform:Username",
@@ -737,17 +743,17 @@ public class ApplicationManager implements Serializable {
 
                 updateApplications();
 
-            } else {
-                FacesContext.getCurrentInstance().addMessage("loginform:Username",
-                        new FacesMessage("Login failed: Wrong username or password"));
             }
-
         } catch (Exception e) {
-            observer.setChanged();
-            Object logged = date.toString() + " " + loginuser.getUsername() + " Failed login attempted";
-            observer.notifyObservers(logged);
+            FacesContext.getCurrentInstance().addMessage("loginform:Username",
+                    new FacesMessage("Login failed: Wrong username or password"));
+        } catch (LoginException le) {
             FacesContext.getCurrentInstance().getExternalContext().
                     redirect("/ProjTask/faces/loginerror.xhtml");
+            observer.setChanged();
+            Object logged = date.toString() + " " + username
+                    + " tried to register a username that already exists.";
+            observer.notifyObservers(logged);
         }
         return jsf22Bugfix();
     }
@@ -784,6 +790,7 @@ public class ApplicationManager implements Serializable {
                 Roles jobSeekerRole = new Roles(roleId, 3, "Job seeker");
                 Competence competence;
                 Hash hash;
+                
                 if (getRole().equals("1")) {
 
                     Availability av = new Availability(availableid, personid, getAvailabilityFrom(), getAvailabilityTo());
